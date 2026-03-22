@@ -37,7 +37,7 @@
 
 	
 
-<div id="ai-assistant-v12" style="position: fixed; bottom: 30px; left: 30px; z-index: 9999; font-family: 'Inter', sans-serif;">
+<div id="ai-assistant-v12" style="position: fixed; bottom: 12px; left: 30px; z-index: 9999; font-family: 'Inter', sans-serif;">
     
     <button id="bot-toggle" style="background: linear-gradient(135deg, #FF4B2B, #CC005F); color: white; border: none; width: 65px; height: 65px; border-radius: 20px; cursor: pointer; box-shadow: 0 15px 35px rgba(204,0,95,0.4); font-size: 28px; transition: 0.4s; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
         <i class="fa fa-magic"></i>
@@ -82,83 +82,111 @@
 </style>
 
 <script>
-    const btn = document.getElementById('bot-toggle');
-    const win = document.getElementById('bot-window');
-    const close = document.getElementById('close-bot');
-    const input = document.getElementById('bot-input');
-    const send = document.getElementById('bot-send');
-    const msgs = document.getElementById('bot-messages');
-    const typing = document.getElementById('typing');
+    // 1. AI ASSISTANT LOGIC (Unique Variables to avoid conflict)
+    const assistantBtn = document.getElementById('bot-toggle');
+    const assistantWin = document.getElementById('bot-window');
+    const assistantClose = document.getElementById('close-bot');
+    const assistantInput = document.getElementById('bot-input');
+    const assistantSend = document.getElementById('bot-send');
+    const assistantMsgs = document.getElementById('bot-messages');
+    const assistantTyping = document.getElementById('typing');
 
-    // Toggle logic
-    btn.onclick = () => {
-        const isHidden = win.style.display === 'none' || win.style.display === '';
-        win.style.display = isHidden ? 'flex' : 'none';
-        if(isHidden) setTimeout(() => win.style.transform = "translateY(0)", 10);
-    };
-    close.onclick = () => {
-        win.style.transform = "translateY(20px)";
-        setTimeout(() => win.style.display = 'none', 300);
+    // Toggle AI Window
+    assistantBtn.onclick = () => {
+        const isHidden = assistantWin.style.display === 'none' || assistantWin.style.display === '';
+        assistantWin.style.display = isHidden ? 'flex' : 'none';
+        if(isHidden) {
+            setTimeout(() => assistantWin.style.transform = "translateY(0)", 10);
+        }
     };
 
-    // --- ADVANCED BRAIN LOGIC ---
+    // Close AI Window
+    assistantClose.onclick = () => {
+        assistantWin.style.transform = "translateY(20px)";
+        setTimeout(() => assistantWin.style.display = 'none', 300);
+    };
+
+    // AI Knowledge Base Logic
     function botLogic(str) {
         const query = str.toLowerCase();
-        
-        // 1. Knowledge Base: Farhan Labib
         const knowledge = {
             farhan: "Farhan Labib is a Software Developer specializing in Python/Django and Ultra-Modern UI/UX design. He's currently a student at UAP.",
             skills: "His core tech stack: Python, Django, HTML5, CSS3 (3D), JavaScript, and Secure System Design.",
             projects: "Notable projects: Secure Encrypted Chat App, Django E-commerce Platform, and OCR Image Reader.",
             contact: "Direct Access: WhatsApp: +8801300972969 | Email: labibf2580@gmail.com",
-            uap: "University of Asia Pacific (UAP) is where Farhan is honing his Computer Science and Engineering skills.",
+            uap: "University of Asia Pacific (UAP) is where Farhan is honing his CSE skills.",
             location: "He is based in Mirpur, Dhaka, Bangladesh."
         };
 
-        // 2. Automated Smart Response System
         if (query.includes("who") || query.includes("about") || query.includes("farhan")) return knowledge.farhan;
         if (query.includes("skill") || query.includes("tech") || query.includes("language")) return knowledge.skills;
         if (query.includes("project") || query.includes("work") || query.includes("portfolio")) return knowledge.projects;
         if (query.includes("contact") || query.includes("whatsapp") || query.includes("hire") || query.includes("email")) return knowledge.contact;
         if (query.includes("university") || query.includes("study") || query.includes("uap")) return knowledge.uap;
+        if (query.includes("python")) return "Python is Farhan's primary language for Backend and Security tools.";
         
-        // 3. General Tech Intelligence (Professional "Everything" Logic)
-        if (query.includes("python")) return "Python is Farhan's primary language. He uses it for Backend (Django), Automation, and Security tools.";
-        if (query.includes("django")) return "He uses Django to build robust, secure, and scalable web architectures.";
-        if (query.includes("security") || query.includes("encrypt")) return "Security is Farhan's priority. He specializes in end-to-end encryption for communication apps.";
-        if (query.includes("help") || query.includes("service")) return "He can assist you with Web Development, Python Scripts, and Premium UI designs.";
-        
-        // 4. Polite Fallback (Professional)
-        if (query.length < 3) return "Could you please elaborate on your query? I'm here to provide detailed info.";
-        
-        return "I have recorded your query about '"+str+"'. While I focus on Farhan's professional data, you can ask me about his <b>projects, skills, or contact info</b> for immediate precision!";
+        return "I have recorded your query about '" + str + "'. Ask me about Farhan's <b>projects, skills, or contact info</b>!";
     }
 
+    // Add Message to UI
     function addMsg(txt, isUser) {
         const d = document.createElement('div');
         d.className = isUser ? 'user-msg' : 'bot-msg';
         d.innerHTML = txt;
-        msgs.appendChild(d);
-        msgs.scrollTop = msgs.scrollHeight;
+        assistantMsgs.appendChild(d);
+        assistantMsgs.scrollTop = assistantMsgs.scrollHeight;
     }
 
-    function handle() {
-        const val = input.value.trim();
+    // Handle Input
+    function handleAssistantChat() {
+        const val = assistantInput.value.trim();
         if(!val) return;
         addMsg(val, true);
-        input.value = "";
-        typing.style.display = "block";
+        assistantInput.value = "";
+        assistantTyping.style.display = "block";
         
-        // Dynamic thinking time
         setTimeout(() => {
-            typing.style.display = "none";
+            assistantTyping.style.display = "none";
             addMsg(botLogic(val), false);
         }, 800);
     }
 
-    send.onclick = handle;
-    input.onkeypress = (e) => { if(e.key === 'Enter') handle(); };
+    assistantSend.onclick = handleAssistantChat;
+    assistantInput.onkeypress = (e) => { if(e.key === 'Enter') handleAssistantChat(); };
+
+
+    // 2. MAIN NAVIGATION MENU LOGIC (Fixed for smooth trigger)
+    const menuBtnTrigger = document.getElementById('btnToggle');
+    const fullNavMenu = document.getElementById('full-nav-v15');
+    const navLinksList = document.querySelectorAll('.nav-link-v15');
+
+    // Menu Open/Close Toggle
+    menuBtnTrigger.addEventListener('click', function() {
+        this.classList.toggle('active');
+        fullNavMenu.classList.toggle('open');
+        // Lock scroll when menu is open
+        document.body.style.overflow = fullNavMenu.classList.contains('open') ? 'hidden' : 'auto';
+    });
+
+    // Close menu when a link is clicked
+    navLinksList.forEach(link => {
+        link.addEventListener('click', () => {
+            menuBtnTrigger.classList.remove('active');
+            fullNavMenu.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        });
+    });
+
+    // Header Transparent to Solid on Scroll
+    window.addEventListener('scroll', () => {
+        const premiumHeader = document.querySelector('.premium-header-v15');
+        if (premiumHeader) {
+            premiumHeader.style.background = window.scrollY > 50 ? 'rgba(5, 5, 5, 0.95)' : 'transparent';
+            premiumHeader.style.height = window.scrollY > 50 ? '75px' : '90px';
+        }
+    });
 </script>
+
 
 
 
