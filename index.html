@@ -31,6 +31,143 @@
    <script src="js/modernizr.js"></script>
 </head>
 
+
+
+
+
+	
+
+<div id="ai-assistant-v12" style="position: fixed; bottom: 30px; left: 30px; z-index: 9999; font-family: 'Inter', sans-serif;">
+    
+    <button id="bot-toggle" style="background: linear-gradient(135deg, #FF4B2B, #CC005F); color: white; border: none; width: 65px; height: 65px; border-radius: 20px; cursor: pointer; box-shadow: 0 15px 35px rgba(204,0,95,0.4); font-size: 28px; transition: 0.4s; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+        <i class="fa fa-magic"></i>
+        <div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); left: -100%; animation: flare 3s infinite;"></div>
+    </button>
+
+    <div id="bot-window" style="display: none; width: 360px; height: 550px; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(204, 0, 95, 0.4); border-radius: 30px; position: absolute; bottom: 85px; left: 0; flex-direction: column; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.9); transform: translateY(20px); transition: 0.5s ease-out;">
+        
+        <div style="padding: 20px; background: linear-gradient(to right, rgba(204,0,95,0.1), transparent); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 12px; height: 12px; background: #FF4B2B; border-radius: 50%; box-shadow: 0 0 20px #FF4B2B; animation: pulse 2s infinite;"></div>
+                <div>
+                    <h4 style="margin: 0; color: white; font-size: 16px; font-weight: 800; letter-spacing: 1px;">Ai Assistant</h4>
+                    <span style="font-size: 10px; color: #aaa; text-transform: uppercase;">Neural Processing Active</span>
+                </div>
+            </div>
+            <button id="close-bot" style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 24px;">&times;</button>
+        </div>
+
+        <div id="bot-messages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none;">
+            <div class="bot-msg">Systems Online. I am Farhan Labib's advanced interface. Ask me anything about his work, or general tech queries!</div>
+        </div>
+
+        <div id="typing" style="display: none; padding: 0 25px 15px; color: #CC005F; font-size: 12px; font-weight: 700; letter-spacing: 1px;">ANALYZING...</div>
+
+        <div style="padding: 20px; background: rgba(0,0,0,0.4); display: flex; gap: 10px; border-top: 1px solid rgba(255,255,255,0.05);">
+            <input id="bot-input" type="text" placeholder="Type your query..." style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 14px 18px; color: white; outline: none; font-size: 14px; transition: 0.3s;">
+            <button id="bot-send" style="background: #CC005F; border: none; color: white; width: 50px; height: 50px; border-radius: 15px; cursor: pointer; box-shadow: 0 5px 15px rgba(204,0,95,0.3);"><i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+    @keyframes flare { 0% { left: -100%; } 100% { left: 100%; } }
+    .bot-msg, .user-msg { padding: 14px 18px; border-radius: 20px; font-size: 14px; line-height: 1.6; max-width: 85%; animation: fadeIn 0.5s ease; position: relative; }
+    .bot-msg { background: rgba(255,255,255,0.04); color: #ddd; align-self: flex-start; border-bottom-left-radius: 5px; border-left: 4px solid #CC005F; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); }
+    .user-msg { background: linear-gradient(135deg, #CC005F, #FF4B2B); color: white; align-self: flex-end; border-bottom-right-radius: 5px; font-weight: 500; box-shadow: 0 10px 20px rgba(204,0,95,0.2); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    #bot-messages::-webkit-scrollbar { display: none; }
+    #bot-input:focus { border-color: #CC005F; background: rgba(255,255,255,0.07); }
+</style>
+
+<script>
+    const btn = document.getElementById('bot-toggle');
+    const win = document.getElementById('bot-window');
+    const close = document.getElementById('close-bot');
+    const input = document.getElementById('bot-input');
+    const send = document.getElementById('bot-send');
+    const msgs = document.getElementById('bot-messages');
+    const typing = document.getElementById('typing');
+
+    // Toggle logic
+    btn.onclick = () => {
+        const isHidden = win.style.display === 'none' || win.style.display === '';
+        win.style.display = isHidden ? 'flex' : 'none';
+        if(isHidden) setTimeout(() => win.style.transform = "translateY(0)", 10);
+    };
+    close.onclick = () => {
+        win.style.transform = "translateY(20px)";
+        setTimeout(() => win.style.display = 'none', 300);
+    };
+
+    // --- ADVANCED BRAIN LOGIC ---
+    function botLogic(str) {
+        const query = str.toLowerCase();
+        
+        // 1. Knowledge Base: Farhan Labib
+        const knowledge = {
+            farhan: "Farhan Labib is a Software Developer specializing in Python/Django and Ultra-Modern UI/UX design. He's currently a student at UAP.",
+            skills: "His core tech stack: Python, Django, HTML5, CSS3 (3D), JavaScript, and Secure System Design.",
+            projects: "Notable projects: Secure Encrypted Chat App, Django E-commerce Platform, and OCR Image Reader.",
+            contact: "Direct Access: WhatsApp: +8801300972969 | Email: labibf2580@gmail.com",
+            uap: "University of Asia Pacific (UAP) is where Farhan is honing his Computer Science and Engineering skills.",
+            location: "He is based in Mirpur, Dhaka, Bangladesh."
+        };
+
+        // 2. Automated Smart Response System
+        if (query.includes("who") || query.includes("about") || query.includes("farhan")) return knowledge.farhan;
+        if (query.includes("skill") || query.includes("tech") || query.includes("language")) return knowledge.skills;
+        if (query.includes("project") || query.includes("work") || query.includes("portfolio")) return knowledge.projects;
+        if (query.includes("contact") || query.includes("whatsapp") || query.includes("hire") || query.includes("email")) return knowledge.contact;
+        if (query.includes("university") || query.includes("study") || query.includes("uap")) return knowledge.uap;
+        
+        // 3. General Tech Intelligence (Professional "Everything" Logic)
+        if (query.includes("python")) return "Python is Farhan's primary language. He uses it for Backend (Django), Automation, and Security tools.";
+        if (query.includes("django")) return "He uses Django to build robust, secure, and scalable web architectures.";
+        if (query.includes("security") || query.includes("encrypt")) return "Security is Farhan's priority. He specializes in end-to-end encryption for communication apps.";
+        if (query.includes("help") || query.includes("service")) return "He can assist you with Web Development, Python Scripts, and Premium UI designs.";
+        
+        // 4. Polite Fallback (Professional)
+        if (query.length < 3) return "Could you please elaborate on your query? I'm here to provide detailed info.";
+        
+        return "I have recorded your query about '"+str+"'. While I focus on Farhan's professional data, you can ask me about his <b>projects, skills, or contact info</b> for immediate precision!";
+    }
+
+    function addMsg(txt, isUser) {
+        const d = document.createElement('div');
+        d.className = isUser ? 'user-msg' : 'bot-msg';
+        d.innerHTML = txt;
+        msgs.appendChild(d);
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function handle() {
+        const val = input.value.trim();
+        if(!val) return;
+        addMsg(val, true);
+        input.value = "";
+        typing.style.display = "block";
+        
+        // Dynamic thinking time
+        setTimeout(() => {
+            typing.style.display = "none";
+            addMsg(botLogic(val), false);
+        }, 800);
+    }
+
+    send.onclick = handle;
+    input.onkeypress = (e) => { if(e.key === 'Enter') handle(); };
+</script>
+
+
+
+
+
+
+
+	
+	
 <body id="top">
 
    <style>
