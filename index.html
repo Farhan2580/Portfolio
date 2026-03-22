@@ -198,86 +198,111 @@
 	
 <body id="top">
 
-   <style>
-    /* 1. Floating Header Fix */
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+    
     .premium-header-v15 {
+        font-family: 'Inter', sans-serif;
         position: fixed; top: 0; left: 0; width: 100%; height: 90px;
         z-index: 9999; padding: 0 5%; display: flex;
         align-items: center; justify-content: space-between;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .logo-v15 a {
-        font-size: 2.6rem; font-weight: 900; color: white;
+        font-size: 2.5rem; font-weight: 900; color: white;
         text-decoration: none; letter-spacing: 2px;
     }
     .logo-v15 span { color: #CC005F; }
 
-    /* 2. THE ANIMATED MENU ICON (ONLY ICON) */
+    /* 3D Menu Icon */
     .menu-trigger-v15 {
-        width: 65px; height: 65px; background: rgba(204, 0, 95, 0.1);
-        backdrop-filter: blur(15px); border: 2px solid rgba(204, 0, 95, 0.3);
-        border-radius: 20px; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; gap: 5px;
-        cursor: pointer; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        position: relative; z-index: 10001;
+        width: 60px; height: 60px; background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 6px;
+        cursor: pointer; transition: 0.5s; z-index: 10001;
+        perspective: 1000px;
     }
 
-    /* Icon Stripes */
     .menu-trigger-v15 span {
-        width: 30px; height: 3px; background: white;
-        display: block; border-radius: 10px;
-        transition: 0.4s cubic-bezier(0.68, -0.6, 0.3, 1.6);
-    }
-    /* Middle stripe is shorter for style */
-    .menu-trigger-v15 span:nth-child(2) { width: 18px; align-self: flex-end; margin-right: 17px; }
-
-    /* Hover & Active Effects */
-    .menu-trigger-v15:hover {
-        background: #CC005F; border-color: #CC005F;
-        transform: rotate(90deg) scale(1.1);
-        box-shadow: 0 0 25px rgba(204, 0, 95, 0.5);
+        width: 26px; height: 3px; background: white;
+        display: block; border-radius: 10px; transition: 0.4s;
     }
 
-    .menu-trigger-v15.active {
-        transform: rotate(0deg); background: #333; border-color: #444;
-    }
+    .menu-trigger-v15:hover { background: #CC005F; border-color: #CC005F; transform: scale(1.05); }
 
-    .menu-trigger-v15.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); width: 30px; }
+    .menu-trigger-v15.active { transform: rotateY(180deg); background: #222; }
+    .menu-trigger-v15.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
     .menu-trigger-v15.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .menu-trigger-v15.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); width: 30px; }
+    .menu-trigger-v15.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-    /* 3. FULL SCREEN BUBBLE REVEAL NAV */
+    /* Full Nav Overlay */
     #full-nav-v15 {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        background: radial-gradient(circle at 90% 10%, rgba(30, 0, 15, 0.98), #050505);
-        backdrop-filter: blur(30px); display: flex; align-items: center; justify-content: center;
+        background: rgba(8, 8, 8, 0.97); backdrop-filter: blur(30px);
+        display: flex; align-items: center; justify-content: center;
         clip-path: circle(0% at 93% 7%);
-        transition: clip-path 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+        transition: clip-path 0.9s cubic-bezier(0.8, 0, 0.2, 1);
         z-index: 10000;
     }
 
     #full-nav-v15.open { clip-path: circle(150% at 93% 7%); }
 
-    /* Menu Links Design */
-    .nav-content-v15 { list-style: none; text-align: center; }
-    .nav-content-v15 li { margin: 25px 0; opacity: 0; transform: scale(0.5); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    #full-nav-v15.open li { opacity: 1; transform: scale(1); }
-
-    .nav-link-v15 {
-        font-size: 5.5rem; font-weight: 900; color: white;
-        text-decoration: none; text-transform: uppercase;
-        letter-spacing: -2px; transition: 0.4s; position: relative;
+    .nav-content-v15 { list-style: none; counter-reset: nav-counter; perspective: 1500px; width: 80%; }
+    
+    .nav-content-v15 li { 
+        margin: 35px 0; opacity: 0; 
+        transform: translate3d(0, 80px, -300px); 
+        transition: 0.7s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    /* Hover Highlight */
+    #full-nav-v15.open li { opacity: 1; transform: translate3d(0, 0, 0); }
+    #full-nav-v15.open li:nth-child(1) { transition-delay: 0.1s; }
+    #full-nav-v15.open li:nth-child(2) { transition-delay: 0.2s; }
+    #full-nav-v15.open li:nth-child(3) { transition-delay: 0.3s; }
+    #full-nav-v15.open li:nth-child(4) { transition-delay: 0.4s; }
+
+    /* Premium Ghost Text with Gradient Reveal */
+    .nav-link-v15 {
+        font-size: clamp(3rem, 7vw, 7.5rem); font-weight: 900; 
+        color: transparent; text-decoration: none; text-transform: uppercase;
+        -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+        position: relative; transition: 0.5s; letter-spacing: -2px;
+    }
+
+    .nav-link-v15::before {
+        content: "0" counter(nav-counter); counter-increment: nav-counter;
+        position: absolute; left: -70px; top: 50%; transform: translateY(-50%);
+        font-size: 1.2rem; font-weight: 400; color: #CC005F;
+        -webkit-text-stroke: 0;
+    }
+
     .nav-link-v15:hover {
-        color: #CC005F; padding-left: 20px;
+        padding-left: 25px;
+        background: linear-gradient(90deg, #CC005F, #FF4B2B);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke: 1px transparent;
+    }
+
+    .nav-link-v15::after {
+        content: ""; position: absolute; bottom: -8px; left: 0;
+        width: 0; height: 4px; background: linear-gradient(90deg, #CC005F, #FF4B2B);
+        transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .nav-link-v15:hover::after { width: 100%; }
+
+    .menu-decor-text {
+        position: absolute; top: 8%; left: 8%;
+        color: rgba(255,255,255,0.2); font-size: 1rem; 
+        letter-spacing: 5px; text-transform: uppercase; font-weight: bold;
     }
 
     @media screen and (max-width: 768px) {
-        .nav-link-v15 { font-size: 3.5rem; }
-        .menu-trigger-v15 { width: 55px; height: 55px; }
+        .nav-link-v15 { font-size: 4rem; letter-spacing: -1px; }
+        .nav-link-v15::before { left: 0; top: -20px; transform: none; }
     }
 </style>
 
@@ -286,48 +311,54 @@
         <a href="index.html">FARHAN<span>.</span></a>
     </div>
 
-    <div class="menu-trigger-v15" id="btnToggle">
-        <span></span>
-        <span></span>
-        <span></span>
+    <div class="menu-trigger-v15" id="menuBtn">
+        <span></span><span></span><span></span>
     </div>
 
     <nav id="full-nav-v15">
+        <div class="menu-decor-text">Neural Network Area</div>
         <ul class="nav-content-v15">
-            <li style="transition-delay: 0.1s;"><a href="#intro" class="nav-link-v15">Home</a></li>
-            <li style="transition-delay: 0.2s;"><a href="#about" class="nav-link-v15">About</a></li>
-            <li style="transition-delay: 0.3s;"><a href="#resume" class="nav-link-v15">Resume</a></li>               
-            <li style="transition-delay: 0.5s;"><a href="#contact" class="nav-link-v15">Contact</a></li>                  
+            <li><a href="#intro" class="nav-link-v15">Home</a></li>
+            <li><a href="#about" class="nav-link-v15">About</a></li>
+            <li><a href="#resume" class="nav-link-v15">Resume</a></li>
+            <li><a href="#contact" class="nav-link-v15">Contact</a></li>                  
         </ul>
+        <div style="position: absolute; bottom: 8%; right: 8%; color: #444; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">
+            FARHAN LABIB | 2026
+        </div>
     </nav>
 </header>
 
 <script>
-    const btn = document.getElementById('btnToggle');
-    const nav = document.getElementById('full-nav-v15');
-    const links = document.querySelectorAll('.nav-link-v15');
+    const mBtn = document.getElementById('menuBtn');
+    const nPane = document.getElementById('full-nav-v15');
+    const nLinks = document.querySelectorAll('.nav-link-v15');
 
-    // Toggle with body scroll lock
-    btn.addEventListener('click', () => {
-        btn.classList.toggle('active');
-        nav.classList.toggle('open');
-        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : 'auto';
+    mBtn.addEventListener('click', () => {
+        mBtn.classList.toggle('active');
+        nPane.classList.toggle('open');
+        document.body.style.overflow = nPane.classList.contains('open') ? 'hidden' : 'auto';
     });
 
-    // Close on link click
-    links.forEach(link => {
+    nLinks.forEach(link => {
         link.addEventListener('click', () => {
-            btn.classList.remove('active');
-            nav.classList.remove('open');
+            mBtn.classList.remove('active');
+            nPane.classList.remove('open');
             document.body.style.overflow = 'auto';
         });
     });
 
-    // Header Scroll Effect
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.premium-header-v15');
-        header.style.background = window.scrollY > 50 ? 'rgba(5, 5, 5, 0.9)' : 'transparent';
-        header.style.height = window.scrollY > 50 ? '75px' : '90px';
+        if(window.scrollY > 50) {
+            header.style.background = 'rgba(5, 5, 5, 0.92)';
+            header.style.height = '75px';
+            header.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+        } else {
+            header.style.background = 'transparent';
+            header.style.height = '90px';
+            header.style.borderBottom = 'none';
+        }
     });
 </script>
 
