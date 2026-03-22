@@ -79,6 +79,7 @@
     #bot-input:focus { border-color: #CC005F; background: rgba(255,255,255,0.07); }
 </style>
 
+
 <script>
     const assistantBtn = document.getElementById('bot-toggle');
     const assistantWin = document.getElementById('bot-window');
@@ -88,7 +89,7 @@
     const assistantMsgs = document.getElementById('bot-messages');
     const assistantTyping = document.getElementById('typing');
 
-    // Toggle AI Window
+    // 1. Toggle AI Window Logic
     assistantBtn.onclick = () => {
         const isHidden = assistantWin.style.display === 'none' || assistantWin.style.display === '';
         assistantWin.style.display = isHidden ? 'flex' : 'none';
@@ -97,58 +98,76 @@
         }
     };
 
-    // Close AI Window
     assistantClose.onclick = () => {
         assistantWin.style.transform = "translateY(20px)";
         setTimeout(() => assistantWin.style.display = 'none', 300);
     };
 
-    // --- UPDATED SMART BOT LOGIC ---
+    // 2. MASSIVE KNOWLEDGE BASE (Ekhane hazar hazar data add kora jabe)
+    const KNOWLEDGE_BASE = [
+        {
+            // Identity & Bot Info
+            keywords: ["who are you", "tumi ke", "identity", "name", "your name", "tomar nam ki", "identity", "bot", "assistant"],
+            ans: "I am <b>Farhan's AI Assistant</b>. 🤖 I was created to help you learn more about Farhan's work and professional background. You can think of me as his digital representative!"
+        },
+        {
+            // Relationship with Farhan
+            keywords: ["know farhan", "chino farhan", "farhan ke", "who is farhan", "creator", "owner", "him", "farhan labib"],
+            ans: "Yes, I know <b>Farhan Labib</b> very well! He is my creator and the developer behind this portfolio. He's a Software Developer and a CSE student at <b>UAP</b>."
+        },
+        {
+            // Bot's Purpose/Work
+            keywords: ["your work", "your job", "ki kaj", "keno ekhane", "purpose", "what do you do", "help", "role"],
+            ans: "My job is to assist you! 💼 I can answer questions about Farhan's <b>skills, projects, education,</b> or provide his <b>contact details</b> for hiring or collaboration."
+        },
+        {
+            // Skills & Tech Stack
+            keywords: ["skill", "expertise", "language", "stack", "ki ki jano", "tech", "python", "django", "coding"],
+            ans: "Farhan is an expert in <b>Python and Django</b>. He also works with <b>Machine Learning</b>, <b>End-to-End Encryption</b>, and modern UI designs like <b>Glassmorphism and 3D animations</b>."
+        },
+        {
+            // Projects
+            keywords: ["project", "work", "portfolio", "app", "banayche", "done", "ocr", "chat", "e-commerce"],
+            ans: "He has built several cool things:<br>🚀 <b>AI Doc Master:</b> An OCR tool for text extraction.<br>🔐 <b>Secure Chat:</b> A highly encrypted messaging app.<br>🛒 <b>E-commerce Platform:</b> A full-stack Django site."
+        },
+        {
+            // Education (UAP)
+            keywords: ["university", "study", "uap", "varsity", "education", "student", "cse", "porasona", "degree"],
+            ans: "Farhan is currently pursuing his Bachelor's degree in Computer Science and Engineering (CSE) at the <b>University of Asia Pacific (UAP)</b>."
+        },
+        {
+            // Contact & Hire
+            keywords: ["contact", "whatsapp", "hire", "email", "phone", "number", "location", "address", "jogajog", "hire"],
+            ans: "You can reach Farhan directly:<br>📧 <b>Email:</b> labibf2580@gmail.com<br>📱 <b>WhatsApp:</b> +8801300972969<br>📍 <b>Location:</b> Mirpur, Dhaka."
+        },
+        {
+            // General Greetings
+            keywords: ["hi", "hello", "hey", "ki obostha", "salaam", "how are you", "kemon acho", "oi", "yo"],
+            ans: "Hello there! I'm doing great. 😊 I am Farhan's AI Assistant. How can I help you navigate his portfolio today?"
+        }
+    ];
+
+    // 3. SMART LOGIC FUNCTION
     function botLogic(str) {
         const query = str.toLowerCase().trim();
         
-        // 1. Greetings Logic
-        const greetings = ["hi", "hello", "hey", "ki obostha", "salaam", "oi"];
-        if (greetings.some(word => query === word || query.startsWith(word + " "))) {
-            return "Hello! I am Farhan's AI Assistant. 🤖 How can I help you today? You can ask about his <b>skills, projects, or education</b>.";
-        }
-
-        // 2. Knowledge Base Data
-        const data = [
-            {
-                keywords: ["who", "about", "farhan", "labib", "porichoy", "identity"],
-                ans: "<b>Farhan Labib</b> is a Software Developer specializing in <b>Python/Django</b> and Ultra-Modern UI/UX design. He's currently a student at the University of Asia Pacific (UAP)."
-            },
-            {
-                keywords: ["skill", "tech", "language", "stack", "expertise", "ki ki jano", "know"],
-                ans: "Farhan's core tech stack includes:<br>• <b>Backend:</b> Python, Django<br>• <b>Frontend:</b> HTML5, CSS3 (3D), JavaScript<br>• <b>Specialty:</b> Secure System Design & End-to-End Encryption."
-            },
-            {
-                keywords: ["project", "work", "portfolio", "app", "banayche", "done"],
-                ans: "Some of his notable works:<br>1. <b>Secure Chat App:</b> Highly encrypted messaging tool.<br>2. <b>E-commerce Platform:</b> Full-stack Django site.<br>3. <b>OCR Reader:</b> Extracts text from images."
-            },
-            {
-                keywords: ["contact", "whatsapp", "hire", "email", "number", "thikana", "address", "phone"],
-                ans: "You can reach him directly:<br>📧 <b>Email:</b> labibf2580@gmail.com<br>📱 <b>WhatsApp:</b> +8801300972969<br>📍 <b>Location:</b> Mirpur, Dhaka."
-            },
-            {
-                keywords: ["university", "study", "uap", "varsity", "education", "student"],
-                ans: "Farhan is pursuing his CSE degree at the <b>University of Asia Pacific (UAP)</b> in Dhaka."
-            }
-        ];
-
-        // 3. Match Logic
-        for (let item of data) {
+        // Match query with keywords in Knowledge Base
+        for (let item of KNOWLEDGE_BASE) {
             if (item.keywords.some(key => query.includes(key))) {
                 return item.ans;
             }
         }
 
-        // 4. Fallback (If no match found)
-        return "I'm still learning! I couldn't quite get that. 😅 Try asking about Farhan's <b>skills, projects, or how to contact him</b>.";
+        // Fallback responses if no match found
+        const fallbacks = [
+            "I'm still learning! 😅 But I can tell you about Farhan's <b>Python projects</b> or how to <b>contact him</b>.",
+            "I didn't quite get that. Try asking about his <b>skills, education at UAP,</b> or <b>OCR project</b>.",
+            "That's a great question! I don't have the answer yet, but you can message Farhan on <b>WhatsApp</b> to ask him directly."
+        ];
+        return fallbacks[Math.floor(Math.random() * fallbacks.length)];
     }
 
-    // Add Message to UI
+    // 4. UI Interaction Logic
     function addMsg(txt, isUser) {
         const d = document.createElement('div');
         d.className = isUser ? 'user-msg' : 'bot-msg';
@@ -157,23 +176,25 @@
         assistantMsgs.scrollTop = assistantMsgs.scrollHeight;
     }
 
-    // Handle Input
     function handleAssistantChat() {
         const val = assistantInput.value.trim();
         if(!val) return;
-        addMsg(val, true);
+
+        addMsg(val, true); // User message
         assistantInput.value = "";
         assistantTyping.style.display = "block";
         
+        // Simulating AI thinking time
         setTimeout(() => {
             assistantTyping.style.display = "none";
-            addMsg(botLogic(val), false);
+            addMsg(botLogic(val), false); // Bot response
         }, 600);
     }
 
     assistantSend.onclick = handleAssistantChat;
     assistantInput.onkeypress = (e) => { if(e.key === 'Enter') handleAssistantChat(); };
 </script>
+
 
 
 
