@@ -257,65 +257,23 @@
       });
    </script>
 
-</body>
-</html>
-
-   <header>    
-	<div class="row">
-		<div class="top-bar">
-			<a class="menu-toggle" href="javascript:void(0);"><span>MENU</span></a>
-   
-			<div class="logo"><a href="index.html">FARHAN</a></div>              
-			
-			<nav id="main-nav-wrap">
-				<ul class="main-navigation">
-					<li class="current"><a class="smoothscroll" href="#intro">Home</a></li>
-					<li><a class="smoothscroll" href="#about">About</a></li>
-					<li><a class="smoothscroll" href="#resume">Resume</a></li>
-					<li><a class="smoothscroll" href="#portfolio">Portfolio</a></li>                  
-					<li><a class="smoothscroll" href="#contact">Contact</a></li>                  
-				</ul>
-			</nav>          
-		</div> 
-	</div> 
-   </header>
 
 
-   <script src="js/jquery-2.1.3.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/main.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            var toggleButton = $('.menu-toggle'),
-                nav = $('#main-nav-wrap');
 
-            toggleButton.on('click', function(event) {
-                event.preventDefault();
-                toggleButton.toggleClass('is-clicked');
-                nav.slideToggle();
-            });
 
-            if (toggleButton.is(':visible')) nav.addClass('mobile');
 
-            $(window).resize(function() {
-                if (toggleButton.is(':hidden')) {
-                    nav.show().removeClass('mobile');
-                } else {
-                    nav.hide().addClass('mobile');
-                }
-            });
 
-            $('#main-nav-wrap li a').on("click", function() {
-                if (nav.hasClass('mobile')) {
-                    toggleButton.toggleClass('is-clicked');
-                    nav.fadeOut();
-                }
-            });
-        });
-    </script>
 
-</body>
+
+
+
+
+
+
+
+
+	
 
 
 
