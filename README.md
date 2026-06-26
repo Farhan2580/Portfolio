@@ -32,4 +32,4 @@ To experiment with this responsive code-base locally, follow these simple termin
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/farhan2580/Portfolio.git](https://github.com/farhan2580/Portfolio.git)
+   git clone [https://github.com/farhan2580/Portfolio.git]
