@@ -26,7 +26,7 @@ Welcome to the official repository of my personal portfolio. This website is eng
 
 ---
 
-## 🚀 Cloning & Local Implementation
+## Cloning & Local Implementation
 
 To experiment with this responsive code-base locally, follow these simple terminal commands:
 
