@@ -1,4 +1,4 @@
-# 🚀 Farhan Labib | Personal Portfolio
+# Farhan Labib | Personal Portfolio
 
 Welcome to the official repository of my personal portfolio. This website is engineered as a high-performance, ultra-modern portal showcasing my software development journey, secure systems design, and pixel-perfect responsive user interfaces.
 
