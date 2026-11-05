@@ -1,10 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="no-js" lang="en"> 
 <head>
    <meta charset="utf-8">
    <title>Farhan Labib | Portfolio</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-   <link rel="canonical" href="https://your-actual-link.com/">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="Explore Farhan Labib's portfolio: a Computer Science and Engineering graduate interested in web development, software engineering, data science, machine learning, AI, and data analytics.">
+   <meta property="og:type" content="website">
+   <meta property="og:title" content="Farhan Labib | Portfolio">
+   <meta property="og:description" content="Explore Farhan Labib's portfolio: a Computer Science and Engineering graduate interested in web development, software engineering, data science, machine learning, AI, and data analytics.">
+   <meta property="og:url" content="https://farhan2580.github.io/Portfolio/">
+   <meta property="og:image" content="https://farhan2580.github.io/Portfolio/images/profile-pic.jpg">
+   <meta name="twitter:card" content="summary_large_image">
+   <link rel="canonical" href="https://farhan2580.github.io/Portfolio/">
    <link rel="stylesheet" href="css/base.css">  
    <link rel="stylesheet" href="css/main.css">
    <link rel="stylesheet" href="css/vendor.css">     
@@ -19,51 +26,429 @@
       .tag:hover { background: #CC005F; color: #fff; transform: translateY(-3px); }
       .timeline-block { margin-bottom: 30px; border-left: 2px solid #ddd; padding-left: 20px; }
       .button.rounded { border-radius: 50px; }
+      #intro-3d-canvas {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+      }
+      #intro .intro-content { position: relative; z-index: 2; }
+      #intro .intro-social { z-index: 2; }
+      .ambient-3d-scene {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          overflow: hidden;
+          pointer-events: none;
+          perspective: 900px;
+          transform-style: preserve-3d;
+      }
+      .ambient-3d-system {
+          position: absolute;
+          width: clamp(190px, 24vw, 300px);
+          aspect-ratio: 1;
+          transform-style: preserve-3d;
+          animation: ambientSphereFloat 9s ease-in-out infinite;
+          animation-play-state: paused;
+          will-change: transform;
+      }
+      .ambient-3d-sphere {
+          position: absolute;
+          width: 52%;
+          aspect-ratio: 1;
+          top: 24%;
+          left: 24%;
+          border: 1px solid rgba(154, 0, 74, 0.28);
+          border-radius: 50%;
+          background:
+              radial-gradient(circle at 32% 28%, rgba(255,255,255,0.92), transparent 13%),
+              radial-gradient(circle at 35% 33%, rgba(255, 99, 164, 0.24), rgba(204, 0, 95, 0.08) 49%, rgba(204, 0, 95, 0.015) 72%);
+          box-shadow: inset -18px -14px 34px rgba(122, 0, 55, 0.13), 0 0 52px rgba(204, 0, 95, 0.09);
+          transform-style: preserve-3d;
+      }
+      .ambient-3d-sphere::before,
+      .ambient-3d-sphere::after {
+          content: "";
+          position: absolute;
+          inset: -2px 20%;
+          border: 1px solid rgba(204, 0, 95, 0.18);
+          border-radius: 50%;
+          transform: rotateY(65deg);
+      }
+      .ambient-3d-sphere::after {
+          inset: 20% -2px;
+          transform: rotateX(65deg);
+          border-color: rgba(96, 165, 250, 0.16);
+      }
+      .ambient-3d-orbit {
+          position: absolute;
+          inset: 3%;
+          border: 1px solid rgba(96, 165, 250, 0.28);
+          border-radius: 50%;
+          transform-style: preserve-3d;
+          transform: rotateX(68deg) rotateZ(-24deg);
+          animation: ambientOrbitSpin 16s linear infinite;
+          animation-play-state: paused;
+      }
+      .ambient-3d-orbit::before {
+          content: "";
+          position: absolute;
+          inset: 11%;
+          border: 1px solid rgba(204, 0, 95, 0.2);
+          border-radius: 50%;
+          transform: rotateY(70deg);
+      }
+      .ambient-3d-orbit::after {
+          content: "";
+          position: absolute;
+          top: -5px;
+          left: 50%;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #cc005f;
+          box-shadow: 0 0 0 4px rgba(204, 0, 95, 0.12), 0 0 18px rgba(204, 0, 95, 0.36);
+      }
+      .ambient-3d-cube {
+          position: absolute;
+          width: 38px;
+          height: 38px;
+          transform-style: preserve-3d;
+          animation: ambientCubeSpin 19s ease-in-out infinite;
+          animation-play-state: paused;
+          will-change: transform;
+      }
+      .ambient-3d-scene.is-visible .ambient-3d-system,
+      .ambient-3d-scene.is-visible .ambient-3d-orbit,
+      .ambient-3d-scene.is-visible .ambient-3d-cube { animation-play-state: running; }
+      .ambient-3d-cube i {
+          position: absolute;
+          inset: 0;
+          border: 1px solid rgba(204, 0, 95, 0.3);
+          background: linear-gradient(145deg, rgba(255,255,255,0.18), rgba(204,0,95,0.035));
+          backface-visibility: visible;
+      }
+      .ambient-3d-cube i:nth-child(1) { transform: translateZ(19px); }
+      .ambient-3d-cube i:nth-child(2) { transform: rotateY(180deg) translateZ(19px); }
+      .ambient-3d-cube i:nth-child(3) { transform: rotateY(90deg) translateZ(19px); }
+      .ambient-3d-cube i:nth-child(4) { transform: rotateY(-90deg) translateZ(19px); }
+      .ambient-3d-cube i:nth-child(5) { transform: rotateX(90deg) translateZ(19px); }
+      .ambient-3d-cube i:nth-child(6) { transform: rotateX(-90deg) translateZ(19px); }
+      #about .ambient-system-one { top: 5%; left: 1%; }
+      #about .ambient-cube-one { bottom: 11%; left: 28%; }
+      #resume .ambient-system-one { top: 4%; right: 1%; }
+      #resume .ambient-system-one .ambient-3d-sphere { width: 38%; top: 31%; left: 31%; }
+      #resume .ambient-cube-one { top: 48%; right: 16%; }
+      #resume > .row { position: relative; z-index: 1; }
+      #resume > .section-intro { position: relative; z-index: 1; }
+      #contact .ambient-3d-sphere { border-color: rgba(255, 75, 43, 0.32); }
+      #contact .ambient-3d-sphere::before { border-color: rgba(255, 75, 43, 0.18); }
+      #contact .ambient-3d-sphere::after { border-color: rgba(96, 165, 250, 0.2); }
+      #contact .ambient-3d-orbit { border-color: rgba(255, 255, 255, 0.18); }
+      #contact .ambient-3d-cube i {
+          border-color: rgba(255, 75, 43, 0.34);
+          background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(204,0,95,0.09));
+      }
+      #contact .ambient-system-one { top: 6%; left: 1%; }
+      #contact .ambient-cube-one { bottom: 14%; left: 27%; }
+      @keyframes ambientSphereFloat {
+          0%, 100% { transform: translate3d(0, 0, 0) rotateY(-8deg) rotateX(5deg); }
+          50% { transform: translate3d(0, -16px, 8px) rotateY(8deg) rotateX(-4deg); }
+      }
+      @keyframes ambientOrbitSpin {
+          from { transform: rotateX(68deg) rotateZ(-24deg); }
+          to { transform: rotateX(68deg) rotateZ(336deg); }
+      }
+      @keyframes ambientCubeSpin {
+          0%, 100% { transform: translate3d(0, 0, 0) rotateX(-16deg) rotateY(24deg); }
+          50% { transform: translate3d(0, -12px, 16px) rotateX(74deg) rotateY(204deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+          .ambient-3d-system, .ambient-3d-sphere, .ambient-3d-orbit, .ambient-3d-cube { animation: none !important; }
+      }
+      @media screen and (max-width: 768px) {
+          .ambient-3d-scene { opacity: 0.55; }
+          .ambient-3d-system { width: 180px; }
+          .ambient-3d-cube { width: 32px; height: 32px; }
+          .ambient-3d-cube i:nth-child(1) { transform: translateZ(16px); }
+          .ambient-3d-cube i:nth-child(2) { transform: rotateY(180deg) translateZ(16px); }
+          .ambient-3d-cube i:nth-child(3) { transform: rotateY(90deg) translateZ(16px); }
+          .ambient-3d-cube i:nth-child(4) { transform: rotateY(-90deg) translateZ(16px); }
+          .ambient-3d-cube i:nth-child(5) { transform: rotateX(90deg) translateZ(16px); }
+          .ambient-3d-cube i:nth-child(6) { transform: rotateX(-90deg) translateZ(16px); }
+      }
+      @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+          .ambient-tilt { transform-style: preserve-3d; will-change: transform; }
+          #about .ambient-tilt,
+          #resume .ambient-tilt,
+          #contact .ambient-tilt { transition: transform 0.24s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+          #about .ambient-tilt:hover,
+          #resume .ambient-tilt:hover,
+          #contact .ambient-tilt:hover { transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-7px); }
+      }
+
+      #about { background: linear-gradient(140deg, #fff 0%, #fff8fc 48%, #f6f7ff 100%) !important; }
+      #about .bg-circle-1 { background: radial-gradient(circle, rgba(255,75,43,.13), rgba(204,0,95,.04) 60%, transparent 72%); }
+      #about .bg-circle-2 { background: radial-gradient(circle, rgba(96,120,255,.1), rgba(204,0,95,.025) 60%, transparent 72%); }
+      #about .orbit-ring { border-top-color: #ff4b2b; border-left-color: #7a5cff; }
+      #about .orbit-ring-two { border-color: rgba(36, 161, 151, .35); border-left-style: dashed; }
+      #about .glass-card-v9 {
+          border-top: 3px solid transparent;
+          border-image: linear-gradient(90deg, #ff4b2b, #cc005f, #705cff, #22a69a) 1;
+          box-shadow: 0 12px 38px rgba(80, 55, 130, .08);
+      }
+      #about .profile-card { background: linear-gradient(145deg, #fff 70%, #fff1f4); }
+      #about .skills-card { background: linear-gradient(145deg, #fff 70%, #f0f1ff); }
+      #about .header-icon { background: linear-gradient(135deg, #ff4b2b, #cc005f 55%, #705cff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      #about .skill-badge:nth-child(4n+1) { --skill-color: #d34b82; --skill-tint: #fff0f6; }
+      #about .skill-badge:nth-child(4n+2) { --skill-color: #6554c0; --skill-tint: #f1efff; }
+      #about .skill-badge:nth-child(4n+3) { --skill-color: #168d82; --skill-tint: #eaf8f5; }
+      #about .skill-badge:nth-child(4n) { --skill-color: #c17a19; --skill-tint: #fff6e8; }
+      #about .skill-badge { border-color: color-mix(in srgb, var(--skill-color) 20%, white); background: var(--skill-tint); }
+      #about .skill-badge i { color: var(--skill-color); }
+      #about .skill-badge:hover { background: var(--skill-color); border-color: var(--skill-color); }
+      #about .btn-main-final.primary { background: linear-gradient(110deg, #cc005f, #ff4b2b); }
+      #about .btn-main-final.secondary { border-color: #705cff; color: #5944c2; }
+
+      #resume { background: linear-gradient(145deg, #f3f5ff 0%, #fff7f2 54%, #f0fbf8 100%) !important; }
+      #resume .column-header { background-size: 180% 180%; animation: resumeHeaderShimmer 8s ease-in-out infinite; }
+      #resume .column-header.color-1 { background-image: linear-gradient(125deg, #315cba, #416fd0 52%, #498fca); }
+      #resume .column-header.color-2 { background-image: linear-gradient(125deg, #cc005f, #a51684 52%, #8b3db5); }
+      #resume .column-header.color-3 { background-image: linear-gradient(125deg, #f39c12, #ef6c2f 52%, #e34d47); }
+      #resume .modern-card-v2:not(.project-card) { border-top: 3px solid rgba(89, 105, 190, .26); }
+      #resume > .row:not(.section-intro) > .col-four:first-child .modern-card-v2 { background: linear-gradient(145deg, #fff, #f0f5ff 88%); }
+      #resume > .row:not(.section-intro) > .col-four:nth-child(2) .modern-card-v2 { background: linear-gradient(145deg, #fff, #fff0f6 88%); }
+      #resume > .row:not(.section-intro) > .col-four:first-child .date-tag { color: #365ab0; background: #eaf0ff; }
+      #resume > .row:not(.section-intro) > .col-four:nth-child(2) .status-tag { background: #ffe9f2; color: #b51a68; }
+      #resume > .row:not(.section-intro) > .col-four:nth-child(2) .modern-card-v2:last-child .status-tag { background: #e9f2ff !important; color: #2857a4 !important; }
+      #resume .modern-card-v2 { transition: transform .42s cubic-bezier(.2,.8,.2,1), box-shadow .42s ease, border-color .35s ease; }
+      #resume .column-header i { transition: transform .45s cubic-bezier(.2,.8,.2,1), filter .35s ease; }
+      #resume .column-header:hover i { transform: translateY(-4px) rotateY(18deg) scale(1.12); filter: drop-shadow(0 6px 8px rgba(0,0,0,.2)); }
+      @keyframes resumeHeaderShimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+      #contact {
+          background:
+              radial-gradient(ellipse at 12% 18%, rgba(204,0,95,.22), transparent 34%),
+              radial-gradient(ellipse at 90% 78%, rgba(75,91,220,.2), transparent 36%),
+              radial-gradient(ellipse at 67% 12%, rgba(255,104,54,.11), transparent 28%),
+              #080808 !important;
+      }
+      #contact .glow-orb { background: radial-gradient(circle, rgba(204,0,95,.19) 0%, rgba(116,56,192,.07) 42%, transparent 72%); }
+      #contact .glow-orb-2 { background: radial-gradient(circle, rgba(68,108,255,.17) 0%, rgba(255,75,43,.05) 45%, transparent 72%); }
+      #contact .glass-form-v10 {
+          border-color: rgba(194,126,255,.24);
+          box-shadow: 0 25px 55px rgba(0,0,0,.32), 0 0 34px rgba(112,82,220,.08);
+          transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;
+      }
+      #contact .glass-form-v10:hover { border-color: rgba(255,91,145,.48); box-shadow: 0 30px 60px rgba(0,0,0,.36), 0 0 38px rgba(204,0,95,.13); }
+      #contact .info-box-v10 { border: 1px solid rgba(255,255,255,.07); transition: transform .35s ease, border-color .35s ease, background .35s ease, box-shadow .35s ease; }
+      #contact .info-box-v10:nth-of-type(1) { --contact-accent: #ff6d82; }
+      #contact .info-box-v10:nth-of-type(2) { --contact-accent: #9d83ff; }
+      #contact .info-box-v10:nth-of-type(3) { --contact-accent: #36c99a; }
+      #contact .info-box-v10:hover { transform: translateY(-5px) translateZ(12px); border-color: color-mix(in srgb, var(--contact-accent) 48%, transparent); background: color-mix(in srgb, var(--contact-accent) 9%, rgba(255,255,255,.035)); box-shadow: 0 14px 30px rgba(0,0,0,.2), 0 0 22px color-mix(in srgb, var(--contact-accent) 15%, transparent); }
+      #contact .info-icon-wrapper { color: var(--contact-accent, #ff4b2b); transition: transform .35s ease, filter .35s ease; }
+      #contact .info-box-v10:hover .info-icon-wrapper { transform: translateZ(18px) rotateY(16deg) scale(1.12); filter: drop-shadow(0 0 8px var(--contact-accent)); }
+      #contact .info-text-v10 h6 { color: var(--contact-accent, #ff4b2b); }
+      #contact .btn-glow-v10 { background: linear-gradient(105deg, #cc005f, #f34862 52%, #ff7043); background-size: 180% 180%; transition: background-position .4s ease, transform .3s ease, box-shadow .3s ease; }
+      #contact .btn-glow-v10:hover { background-position: 100% 50%; box-shadow: 0 12px 30px rgba(204,0,95,.24); transform: translateY(-3px); }
+
+      #about .intro-container-v8 { max-width: 1160px; gap: clamp(40px, 7vw, 92px); }
+      #about .profile-box-v8 { filter: drop-shadow(0 22px 34px rgba(74, 54, 117, .12)); }
+      #about .img-wrapper-v8 { border: 7px solid rgba(255,255,255,.92); box-shadow: 0 18px 48px rgba(73, 48, 113, .16); }
+      #about .status-indicator { border-color: #e7e2f3; color: #334155; box-shadow: 0 8px 24px rgba(52, 42, 84, .12); }
+      #about .kicker-v8 { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid #f1d9e7; border-radius: 999px; background: rgba(255,255,255,.74); color: #a12668; font-size: 1.15rem; letter-spacing: .16em; }
+      #about .hero-title-v8 { font-size: clamp(4rem, 5.2vw, 6.4rem); letter-spacing: -.055em; }
+      #about .bio-glass-card { border: 1px solid rgba(120, 97, 158, .12); box-shadow: 0 14px 36px rgba(80,55,130,.07); }
+      #about .glass-card-v9 {
+          border: 1px solid rgba(108, 89, 143, .12);
+          border-image: none;
+          border-top: 0;
+          border-radius: 22px;
+          box-shadow: 0 14px 42px rgba(53, 43, 82, .08);
+          transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+      }
+      #about .glass-card-v9::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: linear-gradient(90deg, #ff7043, #d33f8d 52%, #7064dc); }
+      #about .glass-card-v9:hover { transform: translateY(-7px); border-color: rgba(112, 91, 166, .2); box-shadow: 0 22px 52px rgba(53, 43, 82, .13); }
+      #about .card-header-v9 { padding-bottom: 18px; border-bottom: 1px solid rgba(108, 89, 143, .11); }
+      #about .card-header-v9 h3 { letter-spacing: -.035em; }
+      #about .info-item { border-color: rgba(108, 89, 143, .09); }
+      #about .info-label { color: #77718d; font-size: 1.1rem; letter-spacing: .08em; }
+      #about .info-label i { color: #c34a88; }
+      #about .info-value { color: #27243a; }
+      #about .skill-badge { border: 1px solid color-mix(in srgb, var(--skill-color) 20%, white); border-radius: 999px; padding: 9px 14px; transition: transform .25s ease, color .25s ease, background .25s ease, box-shadow .25s ease; }
+      #about .skill-badge:hover { transform: translateY(-3px); box-shadow: 0 8px 18px color-mix(in srgb, var(--skill-color) 19%, transparent); }
+      #about .btn-main-final { padding: 14px 25px; border-radius: 12px; }
+      #about .btn-main-final.primary { box-shadow: 0 10px 24px rgba(204,0,95,.18); }
+      #about .btn-main-final.secondary { background: rgba(255,255,255,.75); }
+
+      #resume .section-intro h5 { display: inline-flex; padding: 7px 12px; border: 1px solid #f0d7e5; border-radius: 999px; background: rgba(255,255,255,.7); }
+      #resume .section-intro h1 { font-size: clamp(3.2rem, 4vw, 4.8rem); letter-spacing: -.045em; }
+      #resume .section-intro .lead { max-width: 660px; margin: 0 auto; }
+      #resume .path-column { padding: 0 8px; }
+      #resume .column-header { position: relative; overflow: hidden; border-radius: 18px; box-shadow: 0 12px 26px rgba(40, 54, 108, .14); }
+      #resume .column-header::after { content: ""; position: absolute; width: 120px; height: 120px; right: -42px; top: -66px; border: 1px solid rgba(255,255,255,.27); border-radius: 50%; box-shadow: 0 0 0 14px rgba(255,255,255,.07), 0 0 0 28px rgba(255,255,255,.045); pointer-events: none; }
+      #resume .modern-card-v2 { border: 1px solid rgba(65, 73, 111, .11); border-radius: 18px; box-shadow: 0 8px 24px rgba(43, 49, 84, .07); }
+      #resume .modern-card-v2:hover { transform: translateY(-5px); box-shadow: 0 16px 34px rgba(43, 49, 84, .12); }
+      #resume .modern-card-v2 h4 { letter-spacing: -.025em; }
+      #resume .institute { letter-spacing: .045em; }
+      #resume .date-tag, #resume .status-tag, #resume .tech-tag { padding: 6px 11px; letter-spacing: .045em; }
+      #resume .link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid currentColor; border-radius: 8px; transition: color .22s ease, background .22s ease, transform .22s ease; }
+      #resume .link-btn:hover { color: #fff !important; background: #2e3150; border-color: #2e3150; transform: translateY(-2px); }
+      #resume #portfolio-projects .project-card:hover { transform: translateY(-6px); }
+
+      #contact .section-intro { max-width: 950px; margin-left: auto; margin-right: auto; }
+      #contact .kicker-contact-v10 { display: inline-flex; padding: 7px 12px; border: 1px solid rgba(255,137,185,.24); border-radius: 999px; background: rgba(255,255,255,.045); color: #ff8bb7; font-size: 1.15rem; letter-spacing: .17em; }
+      #contact .title-contact-v10 { font-size: clamp(3.8rem, 5vw, 6.2rem); letter-spacing: -.055em; }
+      #contact .gradient-text { background: linear-gradient(100deg, #ff8db7, #ff765e 55%, #c4a4ff); -webkit-background-clip: text; background-clip: text; }
+      #contact .lead-v10 { line-height: 1.8; }
+      #contact .contact-main { display: flex; align-items: stretch; }
+      #contact .contact-main > [class*="col-"] { display: flex; flex-direction: column; }
+      #contact .glass-form-v10 { flex: 1; padding: clamp(24px, 4vw, 46px); border-radius: 24px; background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.018)); transform: none; }
+      #contact .glass-form-v10:hover { transform: translateY(-3px); }
+      #contact .input-group-v10 input, #contact .input-group-v10 textarea {
+          box-sizing: border-box;
+          padding: 14px 15px;
+          border: 1px solid rgba(255,255,255,.12);
+          border-radius: 12px;
+          background: rgba(8, 8, 16, .32);
+          transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
+      }
+      #contact .input-group-v10 input:focus, #contact .input-group-v10 textarea:focus { border-color: rgba(255,116,169,.7); background: rgba(18, 12, 27, .7); box-shadow: 0 0 0 3px rgba(204,0,95,.14); outline: none; }
+      #contact .input-group-v10 label { left: 15px; }
+      #contact .input-group-v10 input:focus + label, #contact .input-group-v10 input:not(:placeholder-shown) + label,
+      #contact .input-group-v10 textarea:focus + label, #contact .input-group-v10 textarea:not(:placeholder-shown) + label { left: 4px; color: #ff8bb7; }
+      #contact .input-group-v10 textarea { min-height: 135px; resize: vertical; }
+      #contact .btn-glow-v10 { border-radius: 12px; }
+      #contact .contact-info-v10 { padding-top: 8px; }
+      #contact .info-title-v10 { margin-bottom: 2.8rem; letter-spacing: -.035em; }
+      #contact .info-box-v10 { min-height: 120px; box-sizing: border-box; border-radius: 18px; background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.02)); animation: none; }
+      #contact .info-icon-wrapper { flex: 0 0 54px; width: 54px; height: 54px; border: 1px solid color-mix(in srgb, var(--contact-accent) 32%, transparent); border-radius: 16px; background: color-mix(in srgb, var(--contact-accent) 12%, transparent); box-shadow: none; }
+      #contact .info-text-v10 p { overflow-wrap: anywhere; color: #e4e0ea; }
+
+      @media screen and (max-width: 768px) {
+          #about .hero-title-v8 { font-size: clamp(3.8rem, 11vw, 4.8rem); }
+          #about .glass-card-v9 { padding: 28px 22px; }
+          #about .info-item { gap: 12px; align-items: flex-start; }
+          #about .info-label { flex: 0 0 42%; }
+          #about .info-value { text-align: right; overflow-wrap: anywhere; }
+          #resume .path-column { padding: 0; }
+          #resume .column-header { border-radius: 16px; }
+          #contact .title-contact-v10 { font-size: clamp(3.7rem, 10vw, 4.6rem); }
+          #contact .info-box-v10 { padding: 22px; }
+      }
+
+      #about .glass-card-v9,
+      #resume .modern-card-v2,
+      #contact .glass-form-v10,
+      #contact .info-box-v10 {
+          transition-duration: .55s;
+          transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+      }
+      #about .skill-badge,
+      #about .btn-main-final,
+      #resume .link-btn,
+      #resume .column-header i,
+      #contact .info-icon-wrapper,
+      #contact .btn-glow-v10 {
+          transition-duration: .4s;
+          transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+      }
+      #about .info-item { transition: padding .35s cubic-bezier(.22, 1, .36, 1), background-color .35s ease; }
+      #contact .input-group-v10 input,
+      #contact .input-group-v10 textarea { transition-duration: .35s; transition-timing-function: cubic-bezier(.22, 1, .36, 1); }
+      #resume .column-header { animation-duration: 14s; animation-timing-function: linear; }
+      #contact .glow-orb { animation-duration: 20s; }
+      #contact .glow-orb-2 { animation-duration: 18s; }
+      #contact .btn-glow-v10 { transition-property: background-position, transform, box-shadow; }
+      #contact .btn-glow-v10:hover { transform: translateY(-2px); }
+      @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+          #about .ambient-tilt,
+          #resume .ambient-tilt,
+          #contact .ambient-tilt {
+              transition-duration: .6s;
+              transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+          }
+      }
+
+      body.motion-ready .scroll-3d-reveal {
+          opacity: 0;
+          translate: 0 18px;
+          transition: opacity .85s cubic-bezier(.22, 1, .36, 1), translate .85s cubic-bezier(.22, 1, .36, 1);
+          transition-delay: var(--reveal-delay, 0ms);
+      }
+      body.motion-ready .scroll-3d-reveal.is-revealed { opacity: 1; translate: 0 0; }
+      @media (prefers-reduced-motion: reduce) {
+          #resume .column-header { animation: none; }
+          body.motion-ready .scroll-3d-reveal { opacity: 1; translate: none; transition: none; }
+          #about .img-wrapper-v8, #about .orbit-ring, #about .orbit-ring-two, #about .pulse-dot, #about .gradient-text-v8,
+          #contact .glow-orb, #contact .glow-orb-2, #contact .info-box-v10 { animation: none; }
+          #about .glass-card-v9:hover, #about .skill-badge:hover, #about .btn-main-final:hover, #resume .modern-card-v2:hover,
+          #resume .column-header:hover i, #contact .glass-form-v10:hover, #contact .info-box-v10:hover,
+          #contact .info-box-v10:hover .info-icon-wrapper, #contact .btn-glow-v10:hover,
+          #resume .link-btn:hover { transform: none; }
+          #about .glass-card-v9, #about .skill-badge, #about .btn-main-final, #resume .column-header i,
+          #resume .modern-card-v2, #resume .link-btn, #contact .glass-form-v10, #contact .info-box-v10,
+          #contact .info-icon-wrapper, #contact .btn-glow-v10 { transition: none; }
+      }
+
+
       
       /* Menu Fix CSS */
       @media screen and (max-width: 768px) {
           #main-nav-wrap { display: none; width: 100%; }
           .is-clicked + #main-nav-wrap { display: block !important; }
       }
+      @media (prefers-reduced-motion: reduce) {
+          #intro-3d-canvas { opacity: 0.65; }
+      }
    </style>
 
    <script src="js/modernizr.js"></script>
 </head>
 
-
-
+<body id="top">
 
 
 
 <div id="ai-assistant-v12" style="position: fixed; bottom: 12px; left: 30px; z-index: 9999; font-family: 'Inter', sans-serif;">
     
-    <button id="bot-toggle" style="background: linear-gradient(135deg, #FF4B2B, #CC005F); color: white; border: none; width: 65px; height: 65px; border-radius: 20px; cursor: pointer; box-shadow: 0 15px 35px rgba(204,0,95,0.4); font-size: 28px; transition: 0.4s; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+    <button id="bot-toggle" type="button" aria-label="Open portfolio assistant" aria-controls="bot-window" aria-expanded="false" style="background: linear-gradient(135deg, #FF4B2B, #CC005F); color: white; border: none; width: 65px; height: 65px; border-radius: 20px; cursor: pointer; box-shadow: 0 15px 35px rgba(204,0,95,0.4); font-size: 28px; transition: 0.4s; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
         <i class="fa fa-magic"></i>
         <div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); left: -100%; animation: flare 3s infinite;"></div>
     </button>
 
-    <div id="bot-window" style="display: none; width: 360px; height: 550px; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(204, 0, 95, 0.4); border-radius: 30px; position: absolute; bottom: 85px; left: 0; flex-direction: column; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.9); transform: translateY(20px); transition: 0.5s ease-out;">
+    <div id="bot-window" role="dialog" aria-label="Portfolio assistant" style="display: none; width: 360px; height: 550px; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(204, 0, 95, 0.4); border-radius: 30px; position: absolute; bottom: 85px; left: 0; flex-direction: column; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.9); transform: translateY(20px); transition: 0.5s ease-out;">
         
         <div style="padding: 20px; background: linear-gradient(to right, rgba(204,0,95,0.1), transparent); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
             <div style="display: flex; align-items: center; gap: 12px;">
                 <div style="width: 12px; height: 12px; background: #FF4B2B; border-radius: 50%; box-shadow: 0 0 20px #FF4B2B; animation: pulse 2s infinite;"></div>
                 <div>
-                    <h4 style="margin: 0; color: white; font-size: 16px; font-weight: 800; letter-spacing: 1px;">Ai Assistant</h4>
-                    <span style="font-size: 10px; color: #aaa; text-transform: uppercase;">Neural Processing Active</span>
+                    <h4 style="margin: 0; color: white; font-size: 16px; font-weight: 800; letter-spacing: 1px;">Portfolio Assistant</h4>
+                    <span style="font-size: 10px; color: #aaa; text-transform: uppercase;">Portfolio FAQs</span>
                 </div>
             </div>
-            <button id="close-bot" style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 24px;">&times;</button>
+            <button id="close-bot" type="button" aria-label="Close portfolio assistant" style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 24px;">&times;</button>
         </div>
 
-        <div id="bot-messages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none;">
-            <div class="bot-msg">Systems Online. I am Farhan Labib's advanced interface. Ask me anything about his work, or general tech queries!</div>
+        <div id="bot-messages" aria-live="polite" aria-relevant="additions" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none;">
+            <div class="bot-msg">Hi! I can help with information about Farhan's projects, education, skills, and contact details.</div>
         </div>
 
-        <div id="typing" style="display: none; padding: 0 25px 15px; color: #CC005F; font-size: 12px; font-weight: 700; letter-spacing: 1px;">ANALYZING...</div>
+        <div aria-label="Suggested questions" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px;">
+            <button type="button" class="bot-suggestion" data-question="What are Farhan's skills?">Skills</button>
+            <button type="button" class="bot-suggestion" data-question="Show Farhan's projects">Projects</button>
+            <button type="button" class="bot-suggestion" data-question="Where did Farhan study?">Education</button>
+            <button type="button" class="bot-suggestion" data-question="Show Farhan's CV">CV</button>
+            <button type="button" class="bot-suggestion" data-question="How can I contact Farhan?">Contact</button>
+        </div>
+
+        <div id="typing" style="display: none; padding: 0 25px 15px; color: #CC005F; font-size: 12px; font-weight: 700; letter-spacing: 1px;">CHECKING PORTFOLIO...</div>
 
         <div style="padding: 20px; background: rgba(0,0,0,0.4); display: flex; gap: 10px; border-top: 1px solid rgba(255,255,255,0.05);">
-            <input id="bot-input" type="text" placeholder="Type your query..." style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 14px 18px; color: white; outline: none; font-size: 14px; transition: 0.3s;">
-            <button id="bot-send" style="background: #CC005F; border: none; color: white; width: 50px; height: 50px; border-radius: 15px; cursor: pointer; box-shadow: 0 5px 15px rgba(204,0,95,0.3);"><i class="fa fa-paper-plane"></i></button>
+            <input id="bot-input" type="text" aria-label="Ask the portfolio assistant" placeholder="Type your query..." style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 14px 18px; color: white; outline: none; font-size: 14px; transition: 0.3s;">
+            <button id="bot-send" type="button" aria-label="Send message" style="background: #CC005F; border: none; color: white; width: 50px; height: 50px; border-radius: 15px; cursor: pointer; box-shadow: 0 5px 15px rgba(204,0,95,0.3);"><i class="fa fa-paper-plane"></i></button>
         </div>
     </div>
 </div>
@@ -77,6 +462,8 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     #bot-messages::-webkit-scrollbar { display: none; }
     #bot-input:focus { border-color: #CC005F; background: rgba(255,255,255,0.07); }
+    .bot-suggestion { background: rgba(204,0,95,0.12); border: 1px solid rgba(204,0,95,0.35); border-radius: 12px; color: #f0c4d9; cursor: pointer; font: inherit; font-size: 11px; padding: 6px 10px; transition: 0.2s; }
+    .bot-suggestion:hover, .bot-suggestion:focus { background: #CC005F; color: white; }
 </style>
 
 
@@ -89,89 +476,272 @@
     const assistantMsgs = document.getElementById('bot-messages');
     const assistantTyping = document.getElementById('typing');
 
-    // 1. Toggle AI Window Logic
+    // Toggle the portfolio assistant.
     assistantBtn.onclick = () => {
         const isHidden = assistantWin.style.display === 'none' || assistantWin.style.display === '';
         assistantWin.style.display = isHidden ? 'flex' : 'none';
-        if(isHidden) {
-            setTimeout(() => assistantWin.style.transform = "translateY(0)", 10);
-        }
+       assistantBtn.setAttribute('aria-expanded', String(isHidden));
+       assistantBtn.setAttribute('aria-label', isHidden ? 'Close portfolio assistant' : 'Open portfolio assistant');
+       if(isHidden) {
+           setTimeout(() => assistantWin.style.transform = "translateY(0)", 10);
+       }
     };
 
     assistantClose.onclick = () => {
         assistantWin.style.transform = "translateY(20px)";
-        setTimeout(() => assistantWin.style.display = 'none', 300);
+        assistantBtn.setAttribute('aria-expanded', 'false');
+        assistantBtn.setAttribute('aria-label', 'Open portfolio assistant');
+        setTimeout(() => {
+            assistantWin.style.display = 'none';
+            assistantBtn.focus();
+        }, 300);
     };
 
-    // 2. MASSIVE KNOWLEDGE BASE (Ekhane hazar hazar data add kora jabe)
     const KNOWLEDGE_BASE = [
         {
-            // Identity & Bot Info
-            keywords: ["who are you", "tumi ke", "identity", "name", "your name", "tomar nam ki", "identity", "bot", "assistant"],
-            ans: "I am <b>Farhan's AI Assistant</b>. 🤖 I was created to help you learn more about Farhan's work and professional background. You can think of me as his digital representative!"
+            id: 'greeting',
+            keywords: ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'salam', 'assalamu alaikum', 'salaam', 'kemon acho', 'ki obostha', 'à¦¹à§à¦¯à¦¾à¦²à§‹', 'à¦¹à¦¾à¦‡', 'à¦¸à¦¾à¦²à¦¾à¦®', 'à¦•à§‡à¦®à¦¨ à¦†à¦›à§‹'],
+            answers: {
+                en: "Hi! Ask me about Farhan's skills, projects, education, CV, or how to contact him.",
+                bn: "à¦¹à§à¦¯à¦¾à¦²à§‹! Farhan-à¦à¦° à¦¦à¦•à§à¦·à¦¤à¦¾, à¦ªà§à¦°à¦œà§‡à¦•à§à¦Ÿ, à¦ªà§œà¦¾à¦¶à§‹à¦¨à¦¾, CV à¦¬à¦¾ à¦¯à§‹à¦—à¦¾à¦¯à§‹à¦—à§‡à¦° à¦¤à¦¥à§à¦¯ à¦œà¦¾à¦¨à¦¤à§‡ à¦ªà§à¦°à¦¶à§à¦¨ à¦•à¦°à§à¦¨à¥¤",
+                banglish: "Hello! Farhan-er skills, project, porashona, CV ba contact niye jiggesh korun."
+            }
         },
         {
-            // Relationship with Farhan
-            keywords: ["know farhan", "chino farhan", "farhan ke", "who is farhan", "creator", "owner", "him", "farhan labib"],
-            ans: "Yes, I know <b>Farhan Labib</b> very well! He is my creator and the developer behind this portfolio. He's a Software Developer and a CSE student at <b>UAP</b>."
+            id: 'assistant',
+            keywords: ['who are you', 'what can you do', 'your purpose', 'your role', 'help me', 'tumi ke', 'ki jano', 'ki bolte paro', 'à¦¤à§à¦®à¦¿ à¦•à§‡', 'à¦•à§€ à¦œà¦¾à¦¨à¦¤à§‡ à¦ªà¦¾à¦°à§‹', 'à¦•à§€ à¦¬à¦²à¦¤à§‡ à¦ªà¦¾à¦°à§‹'],
+            answers: {
+                en: "I'm a portfolio FAQ assistant. I answer from the information published on this site; I'm not a generative AI, so I won't guess details that aren't listed.",
+                bn: "à¦†à¦®à¦¿ à¦à¦‡ portfolio-à¦° à¦¤à¦¥à§à¦¯à¦­à¦¿à¦¤à§à¦¤à¦¿à¦• FAQ assistant; generative AI à¦¨à¦‡à¥¤ à¦¸à¦¾à¦‡à¦Ÿà§‡ à¦¨à§‡à¦‡ à¦à¦®à¦¨ à¦¤à¦¥à§à¦¯ à¦…à¦¨à§à¦®à¦¾à¦¨ à¦•à¦°à§‡ à¦¬à¦²à¦¿ à¦¨à¦¾à¥¤",
+                banglish: "Ami ei portfolio-r FAQ assistant. Website-e deya tothyo theke uttor dei; nei emon tothyo guess kori na."
+            }
         },
         {
-            // Bot's Purpose/Work
-            keywords: ["your work", "your job", "ki kaj", "keno ekhane", "purpose", "what do you do", "help", "role"],
-            ans: "My job is to assist you! 💼 I can answer questions about Farhan's <b>skills, projects, education,</b> or provide his <b>contact details</b> for hiring or collaboration."
+            id: 'identity',
+            keywords: ['who is farhan', 'about farhan', 'tell me about him', 'tell me about farhan', 'introduce farhan', 'what does farhan do', 'what does he do', 'farhan background', 'farhan labib', 'farhan ke', 'farhan somporke', 'farhan shomporke', 'tar bepare', 'ki kore', 'ki kaj kore', 'à¦“ à¦•à§‡', 'à¦«à¦¾à¦°à¦¹à¦¾à¦¨ à¦•à§‡', 'à¦«à¦¾à¦°à¦¹à¦¾à¦¨ à¦¸à¦®à§à¦ªà¦°à§à¦•à§‡', 'à¦«à¦¾à¦°à¦¹à¦¾à¦¨ à¦•à§€ à¦•à¦°à§‡à¦¨', 'à¦¸à§‡ à¦•à§€ à¦•à¦°à§‡'],
+            answers: {
+                en: "Farhan Labib is a Computer Science and Engineering graduate from the University of Asia Pacific. His interests include web development, software engineering, data science, machine learning, artificial intelligence, and data analytics. His portfolio also highlights academic and software projects.",
+                bn: "Farhan Labib University of Asia Pacific থেকে Computer Science and Engineering-এ স্নাতক সম্পন্ন করেছেন। তাঁর আগ্রহের ক্ষেত্র হলো web development, software engineering, data science, machine learning, artificial intelligence (AI), এবং data analytics। তাঁর portfolio-তে academic ও software project-ও তুলে ধরা হয়েছে।",
+                banglish: "Farhan Labib University of Asia Pacific theke Computer Science and Engineering-e graduation complete korechen. Tar agroher moddhe ache web development, software engineering, data science, machine learning, AI ebong data analytics. Portfolio-te tar academic o software project-o deya ache."
+            }
         },
         {
-            // Skills & Tech Stack
-            keywords: ["skill", "expertise", "language", "stack", "ki ki jano", "tech", "python", "django", "coding"],
-            ans: "Farhan is an expert in <b>Python and Django</b>. He also works with <b>Machine Learning</b>, <b>End-to-End Encryption</b>, and modern UI designs like <b>Glassmorphism and 3D animations</b>."
+            id: 'skills',
+            keywords: ['skill', 'skills', 'technology', 'technologies', 'tech stack', 'programming language', 'expertise', 'python', 'django', 'c++', 'c language', 'machine learning', 'deep learning', 'sql', 'mysql', 'git', 'github', 'ki ki pare', 'ki ki jane', 'kon language', 'what can he do', 'à¦¦à¦•à§à¦·à¦¤à¦¾', 'à¦¸à§à¦•à¦¿à¦²', 'à¦ªà§à¦°à§‹à¦—à§à¦°à¦¾à¦®à¦¿à¦‚', 'à¦•à§‹à¦¨ à¦­à¦¾à¦·à¦¾', 'à¦•à¦¿ à¦•à¦¿ à¦ªà¦¾à¦°à§‡', 'à¦•à§€ à¦•à§€ à¦ªà¦¾à¦°à§‡', 'à¦•à¦¿ à¦œà¦¾à¦¨à§‡'],
+            answers: {
+                en: "The skills listed on the portfolio are Python, Django, C/C++, Machine Learning, Deep Learning, SQL/MySQL, and Git/GitHub. The site doesn't specify a proficiency level for each.",
+                bn: "Portfolio-à¦¤à§‡ Python, Django, C/C++, Machine Learning, Deep Learning, SQL/MySQL à¦à¦¬à¦‚ Git/GitHub à¦‰à¦²à§à¦²à§‡à¦– à¦†à¦›à§‡à¥¤ à¦ªà§à¦°à¦¤à¦¿à¦Ÿà¦¿ à¦¦à¦•à§à¦·à¦¤à¦¾à¦° level à¦†à¦²à¦¾à¦¦à¦¾ à¦•à¦°à§‡ à¦¦à§‡à¦“à§Ÿà¦¾ à¦¨à§‡à¦‡à¥¤",
+                banglish: "Portfolio-te Python, Django, C/C++, Machine Learning, Deep Learning, SQL/MySQL ebong Git/GitHub ullekh ache. Protiti skill-er level alada kore deya nei."
+            }
         },
         {
-            // Projects
-            keywords: ["project", "work", "portfolio", "app", "banayche", "done", "ocr", "chat", "e-commerce"],
-            ans: "He has built several cool things:<br>🚀 <b>AI Doc Master:</b> An OCR tool for text extraction.<br>🔐 <b>Secure Chat:</b> A highly encrypted messaging app.<br>🛒 <b>E-commerce Platform:</b> A full-stack Django site."
+            id: 'projects',
+            keywords: ['projects', 'project', 'portfolio work', 'what has he built', 'what did he build', 'his work', 'work on', 'projects list', 'ki project', 'ki ki project', 'ki baniyeche', 'ki banayche', 'ki kaj koreche', 'ki niye kaj', 'à¦ªà§à¦°à¦œà§‡à¦•à§à¦Ÿ', 'à¦ªà§à¦°à¦•à¦²à§à¦ª', 'à¦•à§€ à¦¬à¦¾à¦¨à¦¿à§Ÿà§‡à¦›à§‡', 'à¦•à¦¿ à¦¬à¦¾à¦¨à¦¿à§Ÿà§‡à¦›à§‡', 'à¦•à§€ à¦•à§€ à¦ªà§à¦°à¦œà§‡à¦•à§à¦Ÿ', 'à¦•à§€ à¦¨à¦¿à§Ÿà§‡ à¦•à¦¾à¦œ'],
+            answers: {
+                en: "Projects featured here:<br>â€¢ <b>Forma Math Studio</b> â€” scientific calculators and visual math tools.<br>â€¢ <b>GadgetFlow E-commerce</b> â€” Django and Python.<br>â€¢ <b>Catch the Egg Game</b> â€” C++ and iGraphics.<br>â€¢ <b>Sleep Stage Classification</b> â€” deep-learning research using Python and EEG data.",
+                bn: "à¦à¦–à¦¾à¦¨à§‡ à¦¯à§‡ project-à¦—à§à¦²à§‹ à¦†à¦›à§‡:<br>â€¢ <b>Forma Math Studio</b> â€” scientific calculator à¦“ visual math toolsà¥¤<br>â€¢ <b>GadgetFlow E-commerce</b> â€” Django à¦“ Pythonà¥¤<br>â€¢ <b>Catch the Egg Game</b> â€” C++ à¦“ iGraphicsà¥¤<br>â€¢ <b>Sleep Stage Classification</b> â€” Python à¦“ EEG data-à¦­à¦¿à¦¤à§à¦¤à¦¿à¦• deep-learning researchà¥¤",
+                banglish: "Portfolio-te deya project:<br>â€¢ <b>Forma Math Studio</b> â€” scientific calculator o visual math tools.<br>â€¢ <b>GadgetFlow E-commerce</b> â€” Django o Python.<br>â€¢ <b>Catch the Egg Game</b> â€” C++ o iGraphics.<br>â€¢ <b>Sleep Stage Classification</b> â€” Python o EEG data diye deep-learning research."
+            }
         },
         {
-            // Education (UAP)
-            keywords: ["university", "study", "uap", "varsity", "education", "student", "cse", "porasona", "degree"],
-            ans: "Farhan is currently pursuing his Bachelor's degree in Computer Science and Engineering (CSE) at the <b>University of Asia Pacific (UAP)</b>."
+            id: 'ecommerce',
+            keywords: ['e-commerce', 'ecommerce', 'online shop', 'online store', 'shopping app', 'ecom'],
+            answers: {
+                en: "The E-commerce Web App is listed as a full-stack Django/Python application with authentication and backend workflows. <a href=\"https://github.com/Farhan2580/E-commerce.git\" target=\"_blank\" rel=\"noopener noreferrer\">View its GitHub repository</a>.",
+                bn: "E-commerce Web App-à¦Ÿà¦¿ Django/Python-à¦ à¦¤à§ˆà¦°à¦¿ full-stack application; portfolio-à¦¤à§‡ authentication à¦“ backend workflow-à¦à¦° à¦•à¦¥à¦¾ à¦¬à¦²à¦¾ à¦¹à§Ÿà§‡à¦›à§‡à¥¤ <a href=\"https://github.com/Farhan2580/E-commerce.git\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub repository à¦¦à§‡à¦–à§à¦¨</a>à¥¤",
+                banglish: "E-commerce Web App-ti Django/Python-e toiri full-stack application; portfolio-te authentication o backend workflow-er kotha ache. <a href=\"https://github.com/Farhan2580/E-commerce.git\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub repository dekhun</a>."
+            }
         },
         {
-            // Contact & Hire
-            keywords: ["contact", "whatsapp", "hire", "email", "phone", "number", "location", "address", "jogajog", "hire"],
-            ans: "You can reach Farhan directly:<br>📧 <b>Email:</b> labibf2580@gmail.com<br>📱 <b>WhatsApp:</b> +8801300972969<br>📍 <b>Location:</b> Mirpur, Dhaka."
+            id: 'mathStudio',
+            keywords: ['forma', 'forma math', 'math studio', 'math calculator', 'scientific calculator', 'calculator project', 'calculator', 'visual math', 'à¦—à¦£à¦¿à¦¤ à¦•à§à¦¯à¦¾à¦²à¦•à§à¦²à§‡à¦Ÿà¦°', 'à¦•à§à¦¯à¦¾à¦²à¦•à§à¦²à§‡à¦Ÿà¦°', 'à¦«à¦°à¦®à¦¾', 'à¦®à§à¦¯à¦¾à¦¥ à¦¸à§à¦Ÿà§à¦¡à¦¿à¦“'],
+            answers: {
+                en: "Forma Math Studio is Farhan's interactive math project, featuring a scientific calculator and visual tools for graphs, algebra, geometry, calculus, statistics, matrices, and number/unit conversions. It is built with HTML, CSS, and JavaScript. <a href=\"https://farhan2580.github.io/forma-math-studio/\" target=\"_blank\" rel=\"noopener noreferrer\">Open the live project</a> or <a href=\"https://github.com/Farhan2580/forma-math-studio\" target=\"_blank\" rel=\"noopener noreferrer\">view its GitHub repository</a>.",
+                bn: "Forma Math Studio Farhan-à¦à¦° interactive math projectà¥¤ à¦à¦¤à§‡ scientific calculator à¦à¦¬à¦‚ graph, algebra, geometry, calculus, statistics, matrix à¦“ number/unit conversion-à¦à¦° visual tools à¦†à¦›à§‡à¥¤ à¦à¦Ÿà¦¿ HTML, CSS à¦“ JavaScript à¦¦à¦¿à§Ÿà§‡ à¦¤à§ˆà¦°à¦¿à¥¤ <a href=\"https://farhan2580.github.io/forma-math-studio/\" target=\"_blank\" rel=\"noopener noreferrer\">Live project à¦¦à§‡à¦–à§à¦¨</a> à¦…à¦¥à¦¬à¦¾ <a href=\"https://github.com/Farhan2580/forma-math-studio\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub repository à¦¦à§‡à¦–à§à¦¨</a>à¥¤",
+                banglish: "Forma Math Studio Farhan-er interactive math project. Ete scientific calculator ebong graph, algebra, geometry, calculus, statistics, matrix o number/unit conversion-er visual tools ache. Eti HTML, CSS o JavaScript diye toiri. <a href=\"https://farhan2580.github.io/forma-math-studio/\" target=\"_blank\" rel=\"noopener noreferrer\">Live project dekhun</a> ba <a href=\"https://github.com/Farhan2580/forma-math-studio\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub repository dekhun</a>."
+            }
         },
         {
-            // General Greetings
-            keywords: ["hi", "hello", "hey", "ki obostha", "salaam", "how are you", "kemon acho", "oi", "yo"],
-            ans: "Hello there! I'm doing great. 😊 I am Farhan's AI Assistant. How can I help you navigate his portfolio today?"
+            id: 'game',
+            keywords: ['catch the egg', 'egg game', 'graphics game', 'iggraphics', 'ig game', 'game project', 'à¦—à§‡à¦®', 'à¦•à§à¦¯à¦¾à¦š à¦¦à§à¦¯ à¦à¦—'],
+            answers: {
+                en: "Catch the Egg is listed as a 2D game made with C++ and the iGraphics library. <a href=\"https://github.com/shifat21201013/graphicslab-final.git\" target=\"_blank\" rel=\"noopener noreferrer\">View its GitHub repository</a>.",
+                bn: "Catch the Egg à¦¹à¦²à§‹ C++ à¦“ iGraphics library à¦¦à¦¿à§Ÿà§‡ à¦¤à§ˆà¦°à¦¿ 2D gameà¥¤ <a href=\"https://github.com/shifat21201013/graphicslab-final.git\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub repository à¦¦à§‡à¦–à§à¦¨</a>à¥¤",
+                banglish: "Catch the Egg holo C++ o iGraphics library diye toiri 2D game. <a href=\"https://github.com/shifat21201013/graphicslab-final.git\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub repository dekhun</a>."
+            }
+        },
+        {
+            id: 'thesis',
+            keywords: ['thesis', 'research', 'sleep stage', 'sleep classification', 'sleep edf', 'eeg', 'deep learning project', 'à¦¥à¦¿à¦¸à¦¿à¦¸', 'à¦—à¦¬à§‡à¦·à¦£à¦¾', 'à¦°à¦¿à¦¸à¦¾à¦°à§à¦š'],
+            answers: {
+                en: "The thesis is titled Sleep Stage Classification. The portfolio describes it as deep-learning research using Python and EEG data, supervised by Md. Mahedi Hassan, and lists an A+ grade. <a href=\"https://github.com/Farhan2580/Sleep-EDF-Thesis.git\" target=\"_blank\" rel=\"noopener noreferrer\">View the source repository</a>.",
+                bn: "à¦¥à¦¿à¦¸à¦¿à¦¸à§‡à¦° à¦¨à¦¾à¦® Sleep Stage Classificationà¥¤ Portfolio à¦…à¦¨à§à¦¯à¦¾à§Ÿà§€ à¦à¦Ÿà¦¿ Python à¦“ EEG data à¦¦à¦¿à§Ÿà§‡ à¦•à¦°à¦¾ deep-learning research, supervisor Md. Mahedi Hassan; à¦¸à§‡à¦–à¦¾à¦¨à§‡ A+ grade à¦‰à¦²à§à¦²à§‡à¦– à¦†à¦›à§‡à¥¤ <a href=\"https://github.com/Farhan2580/Sleep-EDF-Thesis.git\" target=\"_blank\" rel=\"noopener noreferrer\">Source repository à¦¦à§‡à¦–à§à¦¨</a>à¥¤",
+                banglish: "Thesis-er nam Sleep Stage Classification. Portfolio onujayi eti Python o EEG data diye kora deep-learning research, supervisor Md. Mahedi Hassan; ekhane A+ grade ullekh ache. <a href=\"https://github.com/Farhan2580/Sleep-EDF-Thesis.git\" target=\"_blank\" rel=\"noopener noreferrer\">Source repository dekhun</a>."
+            }
+        },
+        {
+            id: 'education',
+            keywords: ['education', 'study', 'studies', 'university', 'college', 'school', 'degree', 'bsc', 'b.sc', 'cse', 'uap', 'hsc', 'ssc', 'academic', 'porashona', 'kothay pore', 'kon varsity', 'à¦•à§‹à¦¥à¦¾à§Ÿ à¦ªà§œà§‡', 'à¦•à§‹à¦¥à¦¾à¦¯à¦¼ à¦ªà¦¡à¦¼à§‡', 'à¦ªà§œà¦¾à¦¶à§‹à¦¨à¦¾', 'à¦ªà¦¡à¦¼à¦¾à¦¶à§‹à¦¨à¦¾', 'à¦¬à¦¿à¦¶à§à¦¬à¦¬à¦¿à¦¦à§à¦¯à¦¾à¦²à§Ÿ', 'à¦¬à¦¿à¦¶à§à¦¬à¦¬à¦¿à¦¦à§à¦¯à¦¾à¦²à¦¯à¦¼', 'à¦¶à¦¿à¦•à§à¦·à¦¾', 'à¦¡à¦¿à¦—à§à¦°à¦¿', 'à¦à¦‡à¦šà¦à¦¸à¦¸à¦¿', 'à¦à¦¸à¦à¦¸à¦¸à¦¿'],
+            answers: {
+                en: "Farhan completed his B.Sc. in Computer Science and Engineering at the University of Asia Pacific (UAP). His earlier education includes HSC at Monipur College (2018–2020) and SSC at Kalamridha High School (2013–2018).",
+                bn: "Farhan University of Asia Pacific (UAP) থেকে Computer Science and Engineering-এ B.Sc. সম্পন্ন করেছেন। এর আগে তিনি Monipur College থেকে HSC (2018–2020) এবং Kalamridha High School থেকে SSC (2013–2018) সম্পন্ন করেছেন।",
+                banglish: "Farhan University of Asia Pacific (UAP) theke Computer Science and Engineering-e B.Sc. complete korechen. Er age Monipur College theke HSC (2018–2020) ebong Kalamridha High School theke SSC (2013–2018) complete korechen."
+            }
+        },
+        {
+            id: 'grades',
+            keywords: ['grade', 'grades', 'gpa', 'cgpa', 'result', 'results', 'marks', 'score', 'academic result', 'à¦°à§‡à¦œà¦¾à¦²à§à¦Ÿ', 'à¦«à¦²à¦¾à¦«à¦²', 'à¦œà¦¿à¦ªà¦¿à¦', 'à¦—à§à¦°à§‡à¦¡', 'à¦¨à¦®à§à¦¬à¦°'],
+            answers: {
+                en: "The grades shown on the portfolio are: B.Sc. CSE 3.14 (78.5%), HSC 4.83 (96.6%), SSC 4.89 (97.8%), and an A+ for the Sleep Stage Classification thesis.",
+                bn: "Portfolio-à¦¤à§‡ à¦¦à§‡à¦“à§Ÿà¦¾ à¦«à¦²à¦¾à¦«à¦²: B.Sc. CSE 3.14 (78.5%), HSC 4.83 (96.6%), SSC 4.89 (97.8%) à¦à¦¬à¦‚ Sleep Stage Classification thesis-à¦ A+à¥¤",
+                banglish: "Portfolio-te deya result: B.Sc. CSE 3.14 (78.5%), HSC 4.83 (96.6%), SSC 4.89 (97.8%), ar Sleep Stage Classification thesis-e A+."
+            }
+        },
+        {
+            id: 'contact',
+            keywords: ['contact', 'email', 'e-mail', 'phone', 'number', 'whatsapp', 'hire', 'reach him', 'get in touch', 'à¦¯à§‹à¦—à¦¾à¦¯à§‹à¦—', 'à¦‡à¦®à§‡à¦‡à¦²', 'à¦‡-à¦®à§‡à¦‡à¦²', 'à¦«à§‹à¦¨', 'à¦¨à¦¾à¦®à§à¦¬à¦¾à¦°', 'à¦¨à¦®à§à¦¬à¦°', 'à¦¹à§‹à§Ÿà¦¾à¦Ÿà¦¸à¦…à§à¦¯à¦¾à¦ª', 'à¦¹à§‹à¦¯à¦¼à¦¾à¦Ÿà¦¸à¦…à§à¦¯à¦¾à¦ª', 'à¦•à§€à¦­à¦¾à¦¬à§‡ à¦ªà¦¾à¦¬'],
+            answers: {
+                en: "You can contact Farhan by email at <a href=\"mailto:labibf2580@gmail.com\">labibf2580@gmail.com</a> or on <a href=\"https://wa.me/8801300972969\" target=\"_blank\" rel=\"noopener noreferrer\">WhatsApp at +880 1300-972969</a>.",
+                bn: "Farhan-à¦à¦° à¦¸à¦™à§à¦—à§‡ <a href=\"mailto:labibf2580@gmail.com\">labibf2580@gmail.com</a> à¦‡à¦®à§‡à¦‡à¦²à§‡ à¦…à¦¥à¦¬à¦¾ <a href=\"https://wa.me/8801300972969\" target=\"_blank\" rel=\"noopener noreferrer\">WhatsApp (+880 1300-972969)</a>-à¦ à¦¯à§‹à¦—à¦¾à¦¯à§‹à¦— à¦•à¦°à¦¤à§‡ à¦ªà¦¾à¦°à§‡à¦¨à¥¤",
+                banglish: "Farhan-er sathe <a href=\"mailto:labibf2580@gmail.com\">labibf2580@gmail.com</a> email-e ba <a href=\"https://wa.me/8801300972969\" target=\"_blank\" rel=\"noopener noreferrer\">WhatsApp-e (+880 1300-972969)</a> jogajog korte paren."
+            }
+        },
+        {
+            id: 'location',
+            keywords: ['location', 'where does he live', 'where is he', 'address', 'city', 'country', 'kothay thake', 'kothay thaken', 'kothay ache', 'à¦•à§‹à¦¥à¦¾à§Ÿ à¦¥à¦¾à¦•à§‡', 'à¦•à§‹à¦¥à¦¾à¦¯à¦¼ à¦¥à¦¾à¦•à§‡', 'à¦ à¦¿à¦•à¦¾à¦¨à¦¾', 'à¦•à§‹à¦¨ à¦¦à§‡à¦¶à§‡', 'à¦²à§‹à¦•à§‡à¦¶à¦¨'],
+            answers: {
+                en: "The portfolio lists Farhan's location as Dhaka, Bangladesh.",
+                bn: "Portfolio-à¦¤à§‡ Farhan-à¦à¦° à¦…à¦¬à¦¸à§à¦¥à¦¾à¦¨ Dhaka, Bangladesh à¦¦à§‡à¦“à§Ÿà¦¾ à¦†à¦›à§‡à¥¤",
+                banglish: "Portfolio-te Farhan-er location Dhaka, Bangladesh deya ache."
+            }
+        },
+        {
+            id: 'cv',
+            keywords: ['cv', 'resume', 'curriculum vitae', 'download cv', 'download resume', 'à¦°à¦¿à¦œà¦¿à¦‰à¦®à§‡', 'à¦œà§€à¦¬à¦¨à¦¬à§ƒà¦¤à§à¦¤à¦¾à¦¨à§à¦¤'],
+            answers: {
+                en: "You can <a href=\"images/my-resume.pdf\" download>download Farhan's CV here</a>.",
+                bn: "<a href=\"images/my-resume.pdf\" download>à¦à¦–à¦¾à¦¨ à¦¥à§‡à¦•à§‡ Farhan-à¦à¦° CV download à¦•à¦°à§à¦¨</a>à¥¤",
+                banglish: "<a href=\"images/my-resume.pdf\" download>Ekhane Farhan-er CV download korun</a>."
+            }
+        },
+        {
+            id: 'availability',
+            keywords: ['available', 'availability', 'open to work', 'looking for work', 'job', 'internship', 'freelance', 'work together', 'collaborate', 'à¦šà¦¾à¦•à¦°à¦¿', 'à¦‡à¦¨à§à¦Ÿà¦¾à¦°à§à¦¨à¦¶à¦¿à¦ª', 'à¦•à¦¾à¦œ à¦•à¦°à¦¤à§‡', 'à¦•à¦¾à¦œà§‡à¦° à¦œà¦¨à§à¦¯', 'à¦à¦•à¦¸à¦¾à¦¥à§‡ à¦•à¦¾à¦œ'],
+            answers: {
+                en: "The About section currently marks Farhan as â€œAvailable for Work.â€ For opportunities, contact him by email at <a href=\"mailto:labibf2580@gmail.com\">labibf2580@gmail.com</a>. The portfolio doesn't specify a preferred role or work arrangement.",
+                bn: "About section-à¦ Farhan-à¦•à§‡ à¦¬à¦°à§à¦¤à¦®à¦¾à¦¨à§‡ â€œAvailable for Workâ€ à¦¹à¦¿à¦¸à§‡à¦¬à§‡ à¦¦à§‡à¦–à¦¾à¦¨à§‹ à¦¹à§Ÿà§‡à¦›à§‡à¥¤ à¦¸à§à¦¯à§‹à¦— à¦¨à¦¿à§Ÿà§‡ <a href=\"mailto:labibf2580@gmail.com\">labibf2580@gmail.com</a>-à¦ à¦¯à§‹à¦—à¦¾à¦¯à§‹à¦— à¦•à¦°à¦¤à§‡ à¦ªà¦¾à¦°à§‡à¦¨à¥¤ à¦ªà¦›à¦¨à§à¦¦à§‡à¦° role à¦¬à¦¾ à¦•à¦¾à¦œà§‡à¦° à¦§à¦°à¦¨ portfolio-à¦¤à§‡ à¦‰à¦²à§à¦²à§‡à¦– à¦¨à§‡à¦‡à¥¤",
+                banglish: "About section-e Farhan-ke ekhon â€œAvailable for Workâ€ dekhano hoyeche. Sujog niye <a href=\"mailto:labibf2580@gmail.com\">labibf2580@gmail.com</a>-e jogajog korun. Pochonder role ba kajer dhoron portfolio-te ullekh nei."
+            }
+        },
+        {
+            id: 'experience',
+            keywords: ['experience', 'work history', 'employment history', 'professional background', 'company', 'à¦•à¦¾à¦œà§‡à¦° à¦…à¦­à¦¿à¦œà§à¦žà¦¤à¦¾', 'à¦…à¦­à¦¿à¦œà§à¦žà¦¤à¦¾', 'à¦•à§‹à¦¨ à¦•à§‹à¦®à§à¦ªà¦¾à¦¨à¦¿'],
+            answers: {
+                en: "This portfolio doesn't list formal employment history. It does show academic work, a thesis, and software projects. Contact Farhan for more details.",
+                bn: "à¦à¦‡ portfolio-à¦¤à§‡ formal à¦šà¦¾à¦•à¦°à¦¿à¦° à¦…à¦­à¦¿à¦œà§à¦žà¦¤à¦¾à¦° à¦¤à¦¥à§à¦¯ à¦¨à§‡à¦‡à¥¤ à¦¤à¦¬à§‡ academic à¦•à¦¾à¦œ, thesis à¦à¦¬à¦‚ software project à¦†à¦›à§‡à¥¤ à¦†à¦°à¦“ à¦œà¦¾à¦¨à¦¤à§‡ Farhan-à¦à¦° à¦¸à¦™à§à¦—à§‡ à¦¯à§‹à¦—à¦¾à¦¯à§‹à¦— à¦•à¦°à§à¦¨à¥¤",
+                banglish: "Ei portfolio-te formal chakrir oviggotar tothyo nei. Tobe academic kaj, thesis ebong software project ache. Bistarito jante Farhan-er sathe jogajog korun."
+            }
+        },
+        {
+            id: 'social',
+            keywords: ['social media', 'social link', 'social profile', 'facebook', 'instagram', 'github profile', 'github account', 'github link', 'à¦—à¦¿à¦Ÿà¦¹à¦¾à¦¬ à¦ªà§à¦°à§‹à¦«à¦¾à¦‡à¦²', 'à¦¸à§‹à¦¶à§à¦¯à¦¾à¦² à¦®à¦¿à¦¡à¦¿à§Ÿà¦¾', 'à¦¸à§‹à¦¶à§à¦¯à¦¾à¦² à¦®à¦¿à¦¡à¦¿à¦¯à¦¼à¦¾', 'à¦«à§‡à¦¸à¦¬à§à¦•', 'à¦‡à¦¨à¦¸à§à¦Ÿà¦¾à¦—à§à¦°à¦¾à¦®'],
+            answers: {
+                en: "Farhan's profiles: <a href=\"https://github.com/Farhan2580\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a>, <a href=\"https://www.facebook.com/profile.php?id=100075093945830\" target=\"_blank\" rel=\"noopener noreferrer\">Facebook</a>, and <a href=\"https://www.instagram.com/lab.ib2580\" target=\"_blank\" rel=\"noopener noreferrer\">Instagram</a>.",
+                bn: "Farhan-à¦à¦° profile: <a href=\"https://github.com/Farhan2580\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a>, <a href=\"https://www.facebook.com/profile.php?id=100075093945830\" target=\"_blank\" rel=\"noopener noreferrer\">Facebook</a> à¦“ <a href=\"https://www.instagram.com/lab.ib2580\" target=\"_blank\" rel=\"noopener noreferrer\">Instagram</a>à¥¤",
+                banglish: "Farhan-er profile: <a href=\"https://github.com/Farhan2580\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a>, <a href=\"https://www.facebook.com/profile.php?id=100075093945830\" target=\"_blank\" rel=\"noopener noreferrer\">Facebook</a> ebong <a href=\"https://www.instagram.com/lab.ib2580\" target=\"_blank\" rel=\"noopener noreferrer\">Instagram</a>."
+            }
         }
     ];
 
-    // 3. SMART LOGIC FUNCTION
-    function botLogic(str) {
-        const query = str.toLowerCase().trim();
-        
-        // Match query with keywords in Knowledge Base
-        for (let item of KNOWLEDGE_BASE) {
-            if (item.keywords.some(key => query.includes(key))) {
-                return item.ans;
+    function normalizeQuery(value) {
+        return value
+            .toLocaleLowerCase()
+            .replace(/[â€™']/g, '')
+            .replace(/[^\p{L}\p{N}+#.]+/gu, ' ')
+            .trim()
+            .replace(/\s+/g, ' ');
+    }
+
+    function getAnswerLanguage(query) {
+        if (/[\u0980-\u09ff]/.test(query)) return 'bn';
+        if (/\b(ami|amar|amr|tumi|tomar|tmr|er|ar|ebong|ki|kothay|kothae|koto|kon|ke|kemon|bol|bolo|jano|jane|ache|ase|hoy|hobe|korbe|koro|porashona|jogajog|tar|uni|or)\b/i.test(query)) {
+            return 'banglish';
+        }
+        return 'en';
+    }
+
+    function matchesKeyword(query, keyword) {
+        const normalizedKeyword = normalizeQuery(keyword);
+        if (!normalizedKeyword) return false;
+
+        const queryWords = query.split(' ');
+        const keywordWords = normalizedKeyword.split(' ');
+        if (keywordWords.length === 1) {
+            return queryWords.some(word => wordsMatch(word, keywordWords[0]));
+        }
+        if (query.includes(normalizedKeyword)) return true;
+
+        for (let start = 0; start <= queryWords.length - keywordWords.length; start++) {
+            if (keywordWords.every((word, index) => wordsMatch(queryWords[start + index], word))) return true;
+        }
+        return false;
+    }
+
+    function wordsMatch(first, second) {
+        if (first === second) return true;
+        if (Math.abs(first.length - second.length) > 1 || Math.min(first.length, second.length) < 5) return false;
+
+        let firstIndex = 0;
+        let secondIndex = 0;
+        let edits = 0;
+        while (firstIndex < first.length && secondIndex < second.length) {
+            if (first[firstIndex] === second[secondIndex]) {
+                firstIndex++;
+                secondIndex++;
+                continue;
+            }
+
+            if (++edits > 1) return false;
+            if (first.length > second.length) firstIndex++;
+            else if (second.length > first.length) secondIndex++;
+            else {
+                firstIndex++;
+                secondIndex++;
             }
         }
+        return edits + (firstIndex < first.length || secondIndex < second.length ? 1 : 0) <= 1;
+    }
 
-        // Fallback responses if no match found
-        const fallbacks = [
-            "I'm still learning! 😅 But I can tell you about Farhan's <b>Python projects</b> or how to <b>contact him</b>.",
-            "I didn't quite get that. Try asking about his <b>skills, education at UAP,</b> or <b>OCR project</b>.",
-            "That's a great question! I don't have the answer yet, but you can message Farhan on <b>WhatsApp</b> to ask him directly."
-        ];
-        return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    function botLogic(str) {
+        const query = normalizeQuery(str);
+        const language = getAnswerLanguage(str);
+        const matchedTopics = KNOWLEDGE_BASE
+            .filter(topic => topic.keywords.some(keyword => matchesKeyword(query, keyword)))
+            .map(topic => topic.id);
+
+        if (matchedTopics.length === 0) {
+            const fallbacks = {
+                en: "I don't have reliable information about that in this portfolio, so I don't want to guess. Ask me about Farhan's skills, projects, education, grades, CV, availability, or contact details.",
+                bn: "à¦à¦‡ portfolio-à¦¤à§‡ à¦ à¦¬à¦¿à¦·à§Ÿà§‡ à¦¨à¦¿à¦°à§à¦­à¦°à¦¯à§‹à¦—à§à¦¯ à¦¤à¦¥à§à¦¯ à¦¨à§‡à¦‡, à¦¤à¦¾à¦‡ à¦…à¦¨à§à¦®à¦¾à¦¨ à¦•à¦°à§‡ à¦¬à¦²à¦›à¦¿ à¦¨à¦¾à¥¤ Farhan-à¦à¦° à¦¦à¦•à§à¦·à¦¤à¦¾, project, à¦ªà§œà¦¾à¦¶à§‹à¦¨à¦¾, à¦«à¦²à¦¾à¦«à¦², CV, à¦•à¦¾à¦œà§‡à¦° availability à¦¬à¦¾ à¦¯à§‹à¦—à¦¾à¦¯à§‹à¦— à¦¨à¦¿à§Ÿà§‡ à¦ªà§à¦°à¦¶à§à¦¨ à¦•à¦°à§à¦¨à¥¤",
+                banglish: "Ei portfolio-te ei bishoye nishchit tothyo nei, tai guess korchi na. Farhan-er skills, project, porashona, result, CV, availability ba contact niye jiggesh korun."
+            };
+            return fallbacks[language];
+        }
+
+        return matchedTopics
+            .map(id => KNOWLEDGE_BASE.find(topic => topic.id === id).answers[language])
+            .join('<br><br>');
     }
 
     // 4. UI Interaction Logic
     function addMsg(txt, isUser) {
         const d = document.createElement('div');
         d.className = isUser ? 'user-msg' : 'bot-msg';
-        d.innerHTML = txt;
+        if (isUser) {
+            d.textContent = txt;
+        } else {
+            d.innerHTML = txt;
+        }
         assistantMsgs.appendChild(d);
         assistantMsgs.scrollTop = assistantMsgs.scrollHeight;
     }
@@ -184,7 +754,7 @@
         assistantInput.value = "";
         assistantTyping.style.display = "block";
         
-        // Simulating AI thinking time
+        // Briefly show a response delay.
         setTimeout(() => {
             assistantTyping.style.display = "none";
             addMsg(botLogic(val), false); // Bot response
@@ -192,7 +762,19 @@
     }
 
     assistantSend.onclick = handleAssistantChat;
-    assistantInput.onkeypress = (e) => { if(e.key === 'Enter') handleAssistantChat(); };
+    assistantInput.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleAssistantChat();
+        }
+    };
+
+    document.querySelectorAll('.bot-suggestion').forEach(button => {
+        button.addEventListener('click', () => {
+            assistantInput.value = button.dataset.question;
+            handleAssistantChat();
+        });
+    });
 </script>
 
 
@@ -208,9 +790,6 @@
 
 
 
-<body id="top">
-
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         
@@ -237,6 +816,18 @@
             cursor: pointer; transition: 0.5s; z-index: 10001;
             perspective: 1000px;
         }
+
+        .header-actions-v15 { display: flex; align-items: center; gap: 12px; }
+        .sound-toggle-v15 {
+            box-sizing: border-box; flex: 0 0 44px;
+            width: 44px; height: 44px; padding: 0; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 17px; cursor: pointer;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+        }
+        .sound-toggle-v15:hover { background: #CC005F; border-color: #CC005F; transform: scale(1.06); }
     
         .menu-trigger-v15 span {
             width: 26px; height: 3px; background: white;
@@ -324,11 +915,16 @@
             <a href="index.html">FARHAN<span>.</span></a>
         </div>
     
-        <div class="menu-trigger-v15" id="menuBtn">
-            <span></span><span></span><span></span>
+        <div class="header-actions-v15">
+            <button type="button" id="sound-toggle" class="sound-toggle-v15" aria-label="Turn click sounds off" aria-pressed="true" title="Turn click sounds off">
+                <i class="fa fa-volume-up" aria-hidden="true"></i>
+            </button>
+            <div class="menu-trigger-v15" id="menuBtn" role="button" tabindex="0" aria-label="Open navigation menu" aria-controls="full-nav-v15" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </div>
         </div>
     
-        <nav id="full-nav-v15">
+        <nav id="full-nav-v15" aria-label="Main navigation">
             <div class="menu-decor-text">Neural Network Area</div>
             <ul class="nav-content-v15">
                 <li><a href="#intro" class="nav-link-v15">Home</a></li>
@@ -350,13 +946,25 @@
         mBtn.addEventListener('click', () => {
             mBtn.classList.toggle('active');
             nPane.classList.toggle('open');
-            document.body.style.overflow = nPane.classList.contains('open') ? 'hidden' : 'auto';
+            const isOpen = nPane.classList.contains('open');
+            mBtn.setAttribute('aria-expanded', String(isOpen));
+            mBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+            document.body.style.overflow = isOpen ? 'hidden' : 'auto';
         });
-    
+
+        mBtn.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                mBtn.click();
+            }
+        });
+
         nLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mBtn.classList.remove('active');
                 nPane.classList.remove('open');
+                mBtn.setAttribute('aria-expanded', 'false');
+                mBtn.setAttribute('aria-label', 'Open navigation menu');
                 document.body.style.overflow = 'auto';
             });
         });
@@ -415,16 +1023,17 @@
 
    <section id="intro">   
     <div class="intro-overlay"></div>   
+    <canvas id="intro-3d-canvas" aria-hidden="true"></canvas>
     <div class="intro-content">
         <div class="row">
             <div class="col-twelve">
                 <h5>Hello, I am</h5>
                 <h1 class="animated-name">Farhan Labib.</h1>
                 <p class="intro-position">
-                    <span>Python Developer</span>
-                    <span>Machine Learning Enthusiast</span> 
+                    <span>Computer Science Graduate</span>
+                    <span>Web Development &amp; AI Enthusiast</span> 
                 </p>
-                <a class="button stroke smoothscroll" href="#about">More About Me</a>
+                <a class="button stroke smoothscroll" href="#portfolio-projects">View My Projects</a>
             </div>  
         </div>                  
     </div> 
@@ -435,6 +1044,204 @@
           <li><a href="https://www.instagram.com/lab.ib2580"><i class="fa fa-instagram"></i></a></li>
     </ul>          
    </section>
+
+   <script>
+      (() => {
+          const canvas = document.getElementById('intro-3d-canvas');
+          const context = canvas.getContext('2d');
+          if (!context) return;
+
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+          const points = [];
+          const colors = ['rgba(204, 0, 95, 0.55)', 'rgba(255, 255, 255, 0.38)', 'rgba(96, 165, 250, 0.42)'];
+          let width = 0;
+          let height = 0;
+          let pixelRatio = 1;
+          let animationFrame = 0;
+          let lastFrameTime = 0;
+          let isVisible = true;
+          let pointerX = 0;
+          let pointerY = 0;
+
+          function createPoints() {
+              const count = window.innerWidth < 768 ? 48 : 100;
+              points.length = 0;
+              for (let i = 0; i < count; i++) {
+                  points.push({
+                      x: (Math.random() - 0.5) * width * 1.65,
+                      y: (Math.random() - 0.5) * height * 1.4,
+                      z: Math.random() * 520,
+                      speed: 0.12 + Math.random() * 0.2,
+                      phase: Math.random() * Math.PI * 2,
+                      color: colors[i % colors.length]
+                  });
+              }
+          }
+
+          function resizeCanvas() {
+              const bounds = canvas.getBoundingClientRect();
+              width = bounds.width;
+              height = bounds.height;
+              pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+              canvas.width = Math.round(width * pixelRatio);
+              canvas.height = Math.round(height * pixelRatio);
+              context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+              createPoints();
+              drawScene(0, false);
+          }
+
+          function drawWireSphere(centerX, centerY, radius, rotation, alpha) {
+              const perspective = 620;
+              const project = (x, y, z) => {
+                  const scale = perspective / (perspective + z);
+                  return {
+                      x: centerX + x * scale,
+                      y: centerY + y * scale,
+                      scale
+                  };
+              };
+
+              context.lineWidth = 0.8;
+              for (let latitude = -2; latitude <= 2; latitude++) {
+                  context.beginPath();
+                  for (let step = 0; step <= 48; step++) {
+                      const angle = (step / 48) * Math.PI * 2;
+                      const ringRadius = Math.sqrt(1 - (latitude / 3) ** 2) * radius;
+                      const x = Math.cos(angle + rotation) * ringRadius;
+                      const y = Math.sin(latitude * Math.PI / 6) * radius;
+                      const z = Math.sin(angle + rotation) * ringRadius;
+                      const point = project(x, y, z);
+                      if (step === 0) context.moveTo(point.x, point.y);
+                      else context.lineTo(point.x, point.y);
+                  }
+                  context.strokeStyle = `rgba(204, 0, 95, ${alpha * (0.18 + (latitude + 2) * 0.025)})`;
+                  context.stroke();
+              }
+
+              for (let longitude = 0; longitude < 8; longitude++) {
+                  context.beginPath();
+                  for (let step = 0; step <= 32; step++) {
+                      const angle = -Math.PI / 2 + (step / 32) * Math.PI;
+                      const longitudeAngle = (longitude / 8) * Math.PI + rotation;
+                      const x = Math.cos(angle) * Math.cos(longitudeAngle) * radius;
+                      const y = Math.sin(angle) * radius;
+                      const z = Math.cos(angle) * Math.sin(longitudeAngle) * radius;
+                      const point = project(x, y, z);
+                      if (step === 0) context.moveTo(point.x, point.y);
+                      else context.lineTo(point.x, point.y);
+                  }
+                  context.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.16})`;
+                  context.stroke();
+              }
+          }
+
+          function drawScene(time, animate) {
+              context.clearRect(0, 0, width, height);
+              const perspective = 420;
+              const projected = points.map(point => {
+                  if (animate) {
+                      point.phase += point.speed * 0.01;
+                      point.x += Math.sin(point.phase) * 0.12;
+                      point.y += Math.cos(point.phase * 0.7) * 0.08;
+                      point.z -= point.speed * 0.35;
+                      if (point.z < 0) point.z = 520;
+                  }
+
+                  const scale = perspective / (perspective + point.z);
+                  return {
+                      x: width / 2 + (point.x + pointerX * point.z * 0.035) * scale,
+                      y: height / 2 + (point.y + pointerY * point.z * 0.035) * scale,
+                      z: point.z,
+                      scale,
+                      color: point.color
+                  };
+              });
+
+              for (let i = 0; i < projected.length; i++) {
+                  const first = projected[i];
+                  for (let j = i + 1; j < projected.length; j++) {
+                      const second = projected[j];
+                      const dx = first.x - second.x;
+                      const dy = first.y - second.y;
+                      const distance = Math.sqrt(dx * dx + dy * dy);
+                      if (distance < 92) {
+                          context.beginPath();
+                          context.moveTo(first.x, first.y);
+                          context.lineTo(second.x, second.y);
+                          context.strokeStyle = `rgba(222, 216, 228, ${(1 - distance / 92) * 0.2 * Math.min(first.scale, second.scale)})`;
+                          context.lineWidth = 0.7;
+                          context.stroke();
+                      }
+                  }
+
+                  const point = projected[i];
+                  const radius = 0.8 + point.scale * 1.8;
+                  context.beginPath();
+                  context.arc(point.x, point.y, radius, 0, Math.PI * 2);
+                  context.fillStyle = point.color;
+                  context.fill();
+              }
+
+              const orbitAlpha = window.innerWidth < 768 ? 0.7 : 1;
+              drawWireSphere(width * 0.13, height * 0.48, Math.min(115, width * 0.14), time * 0.00022, orbitAlpha);
+              drawWireSphere(width * 0.87, height * 0.54, Math.min(150, width * 0.18), -time * 0.00017, orbitAlpha);
+          }
+
+          function animate(time) {
+              if (!isVisible || document.hidden || reducedMotion.matches) {
+                  animationFrame = 0;
+                  return;
+              }
+              if (time - lastFrameTime >= 33) {
+                  drawScene(time, true);
+                  lastFrameTime = time;
+              }
+              animationFrame = window.requestAnimationFrame(animate);
+          }
+
+          function startAnimation() {
+              if (!animationFrame && isVisible && !document.hidden && !reducedMotion.matches) {
+                  animationFrame = window.requestAnimationFrame(animate);
+              }
+          }
+
+          canvas.addEventListener('pointermove', event => {
+              const bounds = canvas.getBoundingClientRect();
+              pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+              pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+          }, { passive: true });
+
+          canvas.addEventListener('pointerleave', () => {
+              pointerX = 0;
+              pointerY = 0;
+          }, { passive: true });
+
+          window.addEventListener('resize', resizeCanvas, { passive: true });
+          document.addEventListener('visibilitychange', startAnimation);
+          reducedMotion.addEventListener('change', () => {
+              if (reducedMotion.matches) {
+                  if (animationFrame) window.cancelAnimationFrame(animationFrame);
+                  animationFrame = 0;
+                  drawScene(0, false);
+              } else {
+                  startAnimation();
+              }
+          });
+
+          const observer = new IntersectionObserver(entries => {
+              isVisible = entries[0].isIntersecting;
+              if (isVisible) startAnimation();
+              else if (animationFrame) {
+                  window.cancelAnimationFrame(animationFrame);
+                  animationFrame = 0;
+              }
+          });
+
+          resizeCanvas();
+          observer.observe(canvas);
+          startAnimation();
+      })();
+   </script>
 
    <script src="js/jquery-2.1.3.min.js"></script>
    <script src="js/plugins.js"></script>
@@ -462,22 +1269,17 @@
       });
    </script>
 
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
    <section id="about" class="about-section-final" style="background: #fdfdfd; padding: 120px 0; overflow: hidden; position: relative;">
     
     <div class="bg-circle-1"></div>
     <div class="bg-circle-2"></div>
+    <div class="ambient-3d-scene" aria-hidden="true">
+        <span class="ambient-3d-system ambient-system-one">
+            <span class="ambient-3d-sphere"></span>
+            <span class="ambient-3d-orbit"></span>
+        </span>
+        <span class="ambient-3d-cube ambient-cube-one"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    </div>
 
     <div class="row section-intro" style="position: relative; z-index: 10;">
         <div class="col-twelve">
@@ -498,10 +1300,14 @@
                     <h1 class="hero-title-v8">Nice to meet <span class="gradient-text-v8">you!</span></h1>
                     <div class="bio-glass-card">
                         <p class="lead-v8">
-                            I am a final-year <span class="focus-text">Computer Science and Engineering</span> student at the 
-                            <span class="focus-text">University of Asia Pacific</span>. 
-                            Driven by a passion for <span class="tag-highlight">Machine Learning</span> and 
-                            <span class="tag-highlight">Backend Development</span>.
+                            I am a <span class="focus-text">Computer Science and Engineering graduate</span> from the 
+                            <span class="focus-text">University of Asia Pacific</span>. My interests include 
+                            <span class="tag-highlight">web development</span>, 
+                            <span class="tag-highlight">software engineering</span>, 
+                            <span class="tag-highlight">data science</span>, 
+                            <span class="tag-highlight">machine learning</span>, 
+                            <span class="tag-highlight">artificial intelligence</span>, and 
+                            <span class="tag-highlight">data analytics</span>.
                         </p>
                     </div>
                 </div>
@@ -524,7 +1330,7 @@
                     </li>
                     <li class="info-item">
                         <span class="info-label"><i class="fa fa-graduation-cap"></i> Education</span>
-                        <span class="info-value">B.Sc. in CSE (Final Year)</span>
+                        <span class="info-value">B.Sc. in CSE — Completed</span>
                     </li>
                     <li class="info-item">
                         <span class="info-label"><i class="fa fa-envelope-open"></i> Email</span>
@@ -670,7 +1476,14 @@
 
 
 
-   <section id="resume" class="resume-section" style="background: #f0f2f5; padding: 100px 0;">
+   <section id="resume" class="resume-section" style="background: #f0f2f5; padding: 100px 0; position: relative; overflow: hidden;">
+    <div class="ambient-3d-scene" aria-hidden="true">
+        <span class="ambient-3d-system ambient-system-one">
+            <span class="ambient-3d-sphere"></span>
+            <span class="ambient-3d-orbit"></span>
+        </span>
+        <span class="ambient-3d-cube ambient-cube-one"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    </div>
     <div class="row section-intro">
         <div class="col-twelve">
             <h5 style="color: #CC005F; letter-spacing: 2px; font-weight: 700;">TIMELINE</h5>
@@ -689,27 +1502,21 @@
                 </div>
                 
                 <div class="modern-card-v2" style="flex-grow: 1;">
-                    <span class="date-tag">2021 – Current</span>
+                    <span class="date-tag">B.Sc. Completed</span>
                     <h4>B.Sc. in CSE</h4>
                     <p class="institute">University of Asia Pacific</p>
                     <p class="details">Grade: <strong>3.14 (78.5%)</strong> | EQF Level 6</p>
-                    <a href="https://www.uap-bd.edu" target="_blank" class="link-btn">Website <i class="fa fa-external-link"></i></a>
+                    <a href="https://www.uap-bd.edu" target="_blank" rel="noopener noreferrer" class="link-btn">Website <i class="fa fa-external-link"></i></a>
                 </div>
 
                 <div class="modern-card-v2" style="flex-grow: 1;">
-                    <span class="date-tag">2018 – 2020</span>
+                    <span class="date-tag">2018 &ndash; 2020</span>
                     <h4>HSC (Science)</h4>
                     <p class="institute">Monipur College</p>
                     <p class="details">Grade: <strong>4.83 (96.6%)</strong> | EQF Level 4</p>
-                    <a href="https://mubc.edu.bd/" target="_blank" class="link-btn">Website <i class="fa fa-external-link"></i></a>
+                    <a href="https://mubc.edu.bd/" target="_blank" rel="noopener noreferrer" class="link-btn">Website <i class="fa fa-external-link"></i></a>
                 </div>
 
-                <div class="modern-card-v2" style="flex-grow: 1;">
-                    <span class="date-tag">2013 – 2018</span>
-                    <h4>SSC (Science)</h4>
-                    <p class="institute">Kalamridha High School</p>
-                    <p class="details">Grade: <strong>4.89 (97.8%)</strong> | EQF Level 3</p>
-                </div>
             </div>
         </div>
 
@@ -720,43 +1527,50 @@
                     <h3>Thesis & Certificates</h3>
                 </div>
 
-                <div class="modern-card-v2 thesis-highlight" style="flex-grow: 1;">
+                <div class="modern-card-v2 thesis-highlight">
                     <span class="status-tag">Grade: A+</span>
                     <h4>Sleep Stage Classification</h4>
                     <p class="institute">Deep Learning Research</p>
                     <p class="details">Developed using <strong>Python</strong> & <strong>EEG Data</strong> under Md. Mahedi Hassan.</p>
-                    <a href="https://github.com/Farhan2580/Sleep-EDF-Thesis.git" target="_blank" class="link-btn">Source Code <i class="fa fa-github"></i></a>
+                    <a href="https://github.com/Farhan2580/Sleep-EDF-Thesis.git" target="_blank" rel="noopener noreferrer" class="link-btn">Source Code <i class="fa fa-github"></i></a>
                 </div>
 
-                <div class="modern-card-v2" style="flex-grow: 1;">
+                <div class="modern-card-v2">
                     <span class="status-tag" style="background: #e3f2fd; color: #0d47a1;">Certification</span>
                     <h4>Programming Contest</h4>
                     <p class="institute">University of Asia Pacific</p>
                     <p class="details">Participated in Intra-University contest focusing on Problem Solving.</p>
-                    <a href="https://github.com/Farhan2580/certificates.git" target="_blank" class="link-btn">View All <i class="fa fa-folder-open"></i></a>
+                    <a href="https://github.com/Farhan2580/certificates.git" target="_blank" rel="noopener noreferrer" class="link-btn">View All <i class="fa fa-folder-open"></i></a>
                 </div>
+
             </div>
         </div>
 
         <div class="col-four tab-full" style="display: flex;">
-            <div class="path-column" style="width: 100%; display: flex; flex-direction: column;">
+            <div class="path-column" id="portfolio-projects" style="width: 100%; display: flex; flex-direction: column;">
                 <div class="column-header color-3">
                     <i class="fa fa-code"></i>
                     <h3>Projects</h3>
                 </div>
 
-                <div class="modern-card-v2" style="flex-grow: 1;">
-                    <span class="tech-tag">Django & Python</span>
-                    <h4>E-commerce Web App</h4>
-                    <p class="details">Full-stack e-commerce platform with secure auth and backend logic.</p>
-                    <a href="https://github.com/Farhan2580/E-commerce.git" target="_blank" class="link-btn">GitHub Repo <i class="fa fa-external-link"></i></a>
+                <div class="modern-card-v2 project-card">
+                    <span class="tech-tag">Django &middot; Python &middot; SQLite &middot; Cloudinary</span>
+                    <h4>GadgetFlow E-commerce</h4>
+                    <p class="details">A Django gadget store with category filters, cart updates, flash sales, and Cloudinary product images.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Farhan2580/E-commerce.git" target="_blank" rel="noopener noreferrer" aria-label="E-commerce Web App GitHub repository" data-haptic="true" class="link-btn">GitHub Repo <i class="fa fa-external-link"></i></a>
+                        <a href="https://farhan-gadgetflow.onrender.com/" target="_blank" rel="noopener noreferrer" aria-label="Open GadgetFlow live demo" data-haptic="true" class="link-btn">Live Demo <i class="fa fa-external-link"></i></a>
+                    </div>
                 </div>
 
-                <div class="modern-card-v2" style="flex-grow: 1;">
-                    <span class="tech-tag" style="background: #e1f5fe; color: #0277bd;">C++ & Graphics</span>
-                    <h4>Catch the Egg Game</h4>
-                    <p class="details">A 2D interactive game developed using C++ and iGraphics library.</p>
-                    <a href="https://github.com/shifat21201013/graphicslab-final.git" target="_blank" class="link-btn">GitHub Repo <i class="fa fa-external-link"></i></a>
+                <div class="modern-card-v2 project-card">
+                    <span class="tech-tag">HTML &middot; CSS &middot; JavaScript</span>
+                    <h4>Forma Math Studio</h4>
+                    <p class="details">A scientific calculator and visual tools for graphs, algebra, geometry, calculus, and statistics.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Farhan2580/forma-math-studio" target="_blank" rel="noopener noreferrer" aria-label="Forma Math Studio GitHub repository" data-haptic="true" class="link-btn">GitHub Repo <i class="fa fa-external-link"></i></a>
+                        <a href="https://farhan2580.github.io/forma-math-studio/" target="_blank" rel="noopener noreferrer" aria-label="Open Forma Math Studio live demo" data-haptic="true" class="link-btn">Live Demo <i class="fa fa-external-link"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -818,7 +1632,69 @@
         .details { font-size: 14px; line-height: 1.6; color: #555; margin-bottom: 12px; }
 
         .thesis-highlight { border-top: 5px solid #CC005F; }
-        
+        .project-card { flex: 1; justify-content: space-between; }
+        .project-card .tech-tag { align-self: flex-start; }
+        .project-card .details { margin-bottom: 14px; }
+        .project-links { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+
+        #resume #portfolio-projects .project-card {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            border-top: 4px solid var(--project-accent);
+            background: linear-gradient(145deg, var(--project-wash), #fff 72%);
+            box-shadow: 0 8px 22px var(--project-shadow);
+        }
+        #resume #portfolio-projects .project-card::after {
+            content: "";
+            position: absolute;
+            z-index: 0;
+            width: 130px;
+            height: 130px;
+            top: -62px;
+            right: -44px;
+            border: 1px solid var(--project-ring);
+            border-radius: 50%;
+            box-shadow: 0 0 0 16px var(--project-ring), 0 0 0 32px var(--project-ring-soft);
+            pointer-events: none;
+        }
+        #resume #portfolio-projects .project-card:nth-child(2) {
+            --project-accent: #1d9a8a;
+            --project-wash: #e8f8f3;
+            --project-shadow: rgba(29, 154, 138, .12);
+            --project-ring: rgba(29, 154, 138, .09);
+            --project-ring-soft: rgba(29, 154, 138, .045);
+            --project-tag-background: #d7f0e9;
+            --project-tag-color: #176f63;
+            --project-hover-border: #8bcfc1;
+        }
+        #resume #portfolio-projects .project-card:nth-child(3) {
+            --project-accent: #7657d5;
+            --project-wash: #f0edff;
+            --project-shadow: rgba(118, 87, 213, .13);
+            --project-ring: rgba(118, 87, 213, .09);
+            --project-ring-soft: rgba(118, 87, 213, .045);
+            --project-tag-background: #e6e0ff;
+            --project-tag-color: #5940aa;
+            --project-hover-border: #b7a8f0;
+        }
+        #resume #portfolio-projects .project-card .tech-tag {
+            position: relative;
+            z-index: 1;
+            background: var(--project-tag-background);
+            color: var(--project-tag-color);
+            border-bottom: 2px solid var(--project-accent);
+        }
+        #resume #portfolio-projects .project-card h4 { position: relative; z-index: 1; }
+        #resume #portfolio-projects .project-card .details { position: relative; z-index: 1; }
+        #resume #portfolio-projects .project-links { position: relative; z-index: 1; }
+        #resume #portfolio-projects .project-links .link-btn { color: var(--project-accent); }
+        #resume #portfolio-projects .project-links .link-btn:hover { color: #222; }
+        #resume #portfolio-projects .project-card:hover {
+            border-color: var(--project-hover-border);
+            box-shadow: 0 15px 32px var(--project-shadow);
+        }
+
         .link-btn {
             font-size: 12px;
             font-weight: bold;
@@ -833,18 +1709,50 @@
             .row { display: block !important; }
             .path-column { margin-bottom: 50px; }
         }
+
+        @media screen and (min-width: 769px) {
+            #resume .row:not(.section-intro) {
+                display: flex !important;
+                flex-wrap: nowrap;
+                align-items: stretch;
+            }
+            #resume .row:not(.section-intro) > .col-four {
+                float: none;
+                flex: 1 1 0;
+                min-width: 0;
+            }
+            #resume .row:not(.section-intro) .path-column {
+                display: grid !important;
+                grid-template-rows: 125px repeat(2, minmax(0, 1fr));
+                gap: 20px;
+                height: 100%;
+                margin-bottom: 0;
+            }
+            #resume .row:not(.section-intro) .column-header {
+                height: 125px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+            }
+            #resume .row:not(.section-intro) .modern-card-v2 {
+                min-height: 0;
+                margin: 0;
+            }
+        }
     </style>
 </section>
 
-
-
-
-
-
-
-
-
 <section id="contact" class="contact-premium" style="background: #080808; padding: 120px 0; overflow: hidden; position: relative;">
+    <div class="ambient-3d-scene" aria-hidden="true">
+        <span class="ambient-3d-system ambient-system-one">
+            <span class="ambient-3d-sphere"></span>
+            <span class="ambient-3d-orbit"></span>
+        </span>
+        <span class="ambient-3d-cube ambient-cube-one"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    </div>
     
     <div class="glow-orb"></div>
     <div class="glow-orb-2"></div>
@@ -853,7 +1761,7 @@
         <div class="col-twelve">
             <h5 class="kicker-contact-v10">Connect</h5>
             <h1 class="title-contact-v10">Let's Build Something <span class="gradient-text">Legendary.</span></h1>
-            <p class="lead-v10" style="color: #bbb; max-width: 700px; margin: 0 auto; font-size: 1.8rem;">Have a question or want to work together? Feel free to reach out via the form below—<b>your message will be delivered directly to my inbox as soon as you hit submit.</b> You can also connect with me through my social channels.</p>
+            <p class="lead-v10" style="color: #bbb; max-width: 700px; margin: 0 auto; font-size: 1.8rem;">Have a question or want to work together? Feel free to reach out via the form below&mdash;<b>your message will be delivered directly to my inbox as soon as you hit submit.</b> You can also connect with me through my social channels.</p>
         </div>
     </div>
 
@@ -861,22 +1769,22 @@
         
         <div class="col-seven tab-full animate-this">
             <div class="glass-form-v10">
-                <form id="contactForm" action="https://formspree.io/f/mlgpavrr" method="POST">
+                <form id="contactForm" action="https://formspree.io/f/mlgpavrr" method="POST" aria-label="Contact form">
                     <div class="input-group-v10">
-                        <input name="name" type="text" placeholder=" " required>
-                        <label>Your Name</label>
+                        <input id="contact-name" name="name" type="text" placeholder=" " required>
+                        <label for="contact-name">Your Name</label>
                     </div>
                     <div class="input-group-v10">
-                        <input name="email" type="email" placeholder=" " required>
-                        <label>Your Email</label>
+                        <input id="contact-email" name="email" type="email" placeholder=" " required>
+                        <label for="contact-email">Your Email</label>
                     </div>
                     <div class="input-group-v10">
-                        <input name="subject" type="text" placeholder=" " required>
-                        <label>Subject</label>
+                        <input id="contact-subject" name="subject" type="text" placeholder=" " required>
+                        <label for="contact-subject">Subject</label>
                     </div>
                     <div class="input-group-v10">
-                        <textarea name="message" placeholder=" " rows="5" required></textarea>
-                        <label>Your Message</label>
+                        <textarea id="contact-message" name="message" placeholder=" " rows="5" required></textarea>
+                        <label for="contact-message">Your Message</label>
                     </div>
                     
                     <button type="submit" class="btn-glow-v10">
@@ -886,7 +1794,7 @@
                         </div>
                         <div class="btn-flare-v10"></div>
                     </button>
-                    <div id="form-status-v10"></div>
+                    <div id="form-status-v10" role="status" aria-live="polite"></div>
                 </form>
             </div>
         </div>
@@ -1044,7 +1952,7 @@
                 });
 
                 if (response.ok) {
-                    status.innerHTML = "✓ Thanks! Your message was sent successfully.";
+                    status.innerHTML = "&check; Thanks! Your message was sent successfully.";
                     status.style.color = "#2ecc71"; // Green
                     btnText.innerHTML = "Sent!";
                     form.reset();
@@ -1082,9 +1990,9 @@
 <div class="whatsapp-chat-container">
     <div class="chat-bubble" id="chatBubble">
         <p>Hey! Farhan here. How can I help you?</p>
-        <span class="close-chat" onclick="toggleChat()">×</span>
+        <button type="button" class="close-chat" onclick="toggleChat()" aria-label="Close chat greeting">&times;</button>
     </div>
-    <a href="https://wa.me/8801300972969" target="_blank" class="whatsapp-btn">
+    <a href="https://wa.me/8801300972969" target="_blank" rel="noopener noreferrer" aria-label="Chat with Farhan on WhatsApp" class="whatsapp-btn">
         <div class="online-dot"></div>
         <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp">
     </a>
@@ -1104,23 +2012,23 @@
             <p class="footer-tagline">Building the future with Python & Machine Learning.</p>
             
             <div class="social-links-v11">
-                <a href="https://www.facebook.com/profile.php?id=100075093945830" target="_blank" class="social-icon fb" title="Facebook">
+                <a href="https://www.facebook.com/profile.php?id=100075093945830" target="_blank" rel="noopener noreferrer" class="social-icon fb" title="Facebook" aria-label="Farhan on Facebook">
                     <i class="fa fa-facebook"></i>
                 </a>
-                <a href="https://wa.me/8801300972969" target="_blank" class="social-icon wa" title="WhatsApp">
+                <a href="https://wa.me/8801300972969" target="_blank" rel="noopener noreferrer" class="social-icon wa" title="WhatsApp" aria-label="Farhan on WhatsApp">
                     <i class="fa fa-whatsapp"></i>
                 </a>
-                <a href="https://github.com/Farhan2580" target="_blank" class="social-icon gh" title="GitHub">
+                <a href="https://github.com/Farhan2580" target="_blank" rel="noopener noreferrer" class="social-icon gh" title="GitHub" aria-label="Farhan on GitHub">
                     <i class="fa fa-github"></i>
                 </a>
-                <a href="https://www.instagram.com/lab.ib2580" target="_blank" class="social-icon ig" title="Instagram">
+                <a href="https://www.instagram.com/lab.ib2580" target="_blank" rel="noopener noreferrer" class="social-icon ig" title="Instagram" aria-label="Farhan on Instagram">
                     <i class="fa fa-instagram"></i>
                 </a>
             </div>
 
             <div class="footer-bottom">
                 <div class="copyright">
-                    © 2026 <span>Farhan Labib</span>. All Rights Reserved.
+                    &copy; 2026 <span>Farhan Labib</span>. All Rights Reserved.
                 </div>
                 <div id="go-top-v11">
                     <a class="smoothscroll" title="Back to Top" href="#top">
@@ -1181,8 +2089,9 @@
 
         .chat-bubble {
             background: white;
-            padding: 15px 25px;
-            border-radius: 15px 15px 0 15px;
+            padding: 16px 42px 16px 20px;
+            border: 1px solid rgba(31, 41, 55, 0.06);
+            border-radius: 18px 18px 4px 18px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             position: relative;
             max-width: 250px;
@@ -1199,19 +2108,25 @@
 
         .close-chat {
             position: absolute;
-            top: -10px;
-            left: -10px;
-            background: #333;
-            color: white;
-            width: 20px;
-            height: 20px;
+            top: 8px;
+            right: 8px;
+            border: 0;
+            padding: 0;
+            background: #f1f2f5;
+            color: #647084;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 16px;
+            line-height: 1;
             cursor: pointer;
+            transition: background .2s ease, color .2s ease, transform .2s ease;
         }
+        .close-chat:hover { background: #e7e9ef; color: #222; transform: scale(1.06); }
+        .close-chat:focus-visible { outline: 2px solid #25d366; outline-offset: 2px; }
 
         @keyframes slideInChat {
             from { opacity: 0; transform: translateY(20px) scale(0.9); }
@@ -1280,8 +2195,8 @@
             align-items: center;
         }
 
-        .copyright { color: #444; font-size: 1.3rem; }
-        .copyright span { color: #888; }
+        .copyright { color: #a3a3a3; font-size: 1.3rem; }
+        .copyright span { color: #e5e5e5; }
 
         #go-top-v11 a {
             width: 45px;
@@ -1308,9 +2223,168 @@
         function toggleChat() {
             document.getElementById('chatBubble').style.display = 'none';
         }
+
     </script>
 </footer>
 
+<script>
+    const ambientScenes = document.querySelectorAll('.ambient-3d-scene');
+    if ('IntersectionObserver' in window) {
+        const ambientObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                entry.target.classList.toggle('is-visible', entry.isIntersecting);
+            });
+        }, { rootMargin: '100px' });
+        ambientScenes.forEach(scene => ambientObserver.observe(scene));
+    } else {
+        ambientScenes.forEach(scene => scene.classList.add('is-visible'));
+    }
 
+    const revealPreference = window.matchMedia('(prefers-reduced-motion: no-preference)');
+    const revealTargets = document.querySelectorAll(
+        '#about .intro-container-v8, #about .glass-card-v9, #about .button-section, ' +
+        '#resume .section-intro, #resume .modern-card-v2, #contact .section-intro, ' +
+        '#contact .glass-form-v10, #contact .info-box-v10'
+    );
+    if (revealPreference.matches && 'IntersectionObserver' in window && revealTargets.length) {
+        document.body.classList.add('motion-ready');
+        const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-revealed');
+                revealObserver.unobserve(entry.target);
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
 
+        revealTargets.forEach((target, index) => {
+            target.classList.add('scroll-3d-reveal');
+            target.style.setProperty('--reveal-delay', `${Math.min(index % 3, 2) * 75}ms`);
+            revealObserver.observe(target);
+        });
+    }
 
+    const tiltPreference = window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)');
+    if (tiltPreference.matches) {
+        const tiltTargets = document.querySelectorAll(
+            '#about .glass-card-v9, #resume .modern-card-v2, #contact .glass-form-v10, #contact .info-box-v10'
+        );
+
+        tiltTargets.forEach(target => {
+            target.classList.add('ambient-tilt');
+            let tiltFrame = 0;
+
+            target.addEventListener('pointermove', event => {
+                if (tiltFrame) return;
+                tiltFrame = requestAnimationFrame(() => {
+                    const bounds = target.getBoundingClientRect();
+                    const horizontal = (event.clientX - bounds.left) / bounds.width - 0.5;
+                    const vertical = (event.clientY - bounds.top) / bounds.height - 0.5;
+                    target.style.setProperty('--tilt-x', `${-vertical * 3}deg`);
+                    target.style.setProperty('--tilt-y', `${horizontal * 3}deg`);
+                    tiltFrame = 0;
+                });
+            }, { passive: true });
+
+            target.addEventListener('pointerleave', () => {
+                if (tiltFrame) cancelAnimationFrame(tiltFrame);
+                tiltFrame = 0;
+                target.style.removeProperty('--tilt-x');
+                target.style.removeProperty('--tilt-y');
+            }, { passive: true });
+        });
+    }
+
+    const soundToggle = document.getElementById('sound-toggle');
+    const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+    let clickSoundEnabled = typeof AudioContextConstructor === 'function';
+    let clickAudioContext = null;
+
+    function updateSoundToggle() {
+        const label = clickSoundEnabled ? 'Turn click sounds off' : 'Turn click sounds on';
+        soundToggle.setAttribute('aria-label', label);
+        soundToggle.setAttribute('aria-pressed', String(clickSoundEnabled));
+        soundToggle.title = label;
+        soundToggle.innerHTML = `<i class="fa ${clickSoundEnabled ? 'fa-volume-up' : 'fa-volume-off'}" aria-hidden="true"></i>`;
+        soundToggle.disabled = typeof AudioContextConstructor !== 'function';
+    }
+
+    function playClickSound() {
+        if (!clickSoundEnabled) return;
+
+        if (!clickAudioContext) clickAudioContext = new AudioContextConstructor();
+        if (clickAudioContext.state === 'suspended') {
+            clickAudioContext.resume().then(() => {
+                if (clickSoundEnabled) playClickTone();
+            }, error => {
+                clickSoundEnabled = false;
+                updateSoundToggle();
+                console.error('Unable to resume click sound audio:', error);
+            });
+            return;
+        }
+
+        playClickTone();
+    }
+
+    function playClickTone() {
+        const now = clickAudioContext.currentTime;
+        const oscillator = clickAudioContext.createOscillator();
+        const gain = clickAudioContext.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(740, now);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.025, now + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
+        oscillator.connect(gain);
+        gain.connect(clickAudioContext.destination);
+        oscillator.addEventListener('ended', () => {
+            oscillator.disconnect();
+            gain.disconnect();
+        }, { once: true });
+        oscillator.start(now);
+        oscillator.stop(now + 0.06);
+    }
+
+    updateSoundToggle();
+    soundToggle.addEventListener('click', () => {
+        if (typeof AudioContextConstructor !== 'function') return;
+        clickSoundEnabled = !clickSoundEnabled;
+        updateSoundToggle();
+    });
+
+    document.addEventListener('click', event => {
+        const target = event.target instanceof Element ? event.target : null;
+        const control = target && target.closest('button, a[href], [role="button"], input[type="submit"]');
+        if (!control || control.disabled) return;
+
+        playClickSound();
+        if (control.matches('[data-haptic="true"]') && typeof navigator.vibrate === 'function') {
+            navigator.vibrate(18);
+        }
+    }, true);
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Farhan Labib",
+  "url": "https://farhan2580.github.io/Portfolio/",
+  "jobTitle": "Computer Science and Engineering Graduate",
+  "knowsAbout": [
+    "Web Development",
+    "Software Engineering",
+    "Data Science",
+    "Machine Learning",
+    "Artificial Intelligence",
+    "Data Analytics"
+  ],
+  "sameAs": [
+    "https://github.com/Farhan2580",
+    "https://www.instagram.com/lab.ib2580",
+    "https://www.facebook.com/profile.php?id=100075093945830"
+  ]
+}
+</script>
+</body>
+</html>
